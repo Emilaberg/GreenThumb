@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using GreenThumb.Database;
+using GreenThumb.Models;
+using System.Windows;
 
 namespace GreenThumb
 {
@@ -10,6 +12,15 @@ namespace GreenThumb
         public MainWindow()
         {
             InitializeComponent();
+
+
+            using (GreenThumbDbContext context = new())
+            {
+                UnitOfWorkRepository uow = new(context);
+
+                Plant plant = uow.PlantRepository.GetPlantById(2);
+                MessageBox.Show($"{plant.Name}");
+            }
         }
     }
 }
