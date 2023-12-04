@@ -13,7 +13,7 @@ namespace GreenThumb.Models
 
         [Column("plant_id")]
         public int PlantId { get; set; }
-        public Plant? Plant { get; set; }
+        public Plant Plant { get; set; } = null!;
 
     }
 }

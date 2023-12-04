@@ -13,12 +13,10 @@ namespace GreenThumb.Models
         [Column("name")]
         public string Name { get; set; } = null!;
 
-        [EncryptColumn]
         [Column("password")]
-        public int Password { get; set; }
+        [EncryptColumn]
+        public string Password { get; set; } = null!;
 
-        [Column("garden_id")]
-        public int GardenId { get; set; }
         public Garden? Garden { get; set; }
     }
 }

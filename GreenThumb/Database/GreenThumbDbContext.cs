@@ -46,10 +46,10 @@ namespace GreenThumb.Database
 
 
             //Delete behaviour på instructions
-            modelBuilder.Entity<Instruction>()
-                .HasOne(i => i.Plant)
-                .WithOne(p => p.Instruction)
-                .OnDelete(DeleteBehavior.SetNull);
+            modelBuilder.Entity<Plant>()
+                .HasMany(i => i.Instructions)
+                .WithOne(i => i.Plant)
+                .OnDelete(DeleteBehavior.Cascade);
 
             //seed:ar Plants
             modelBuilder.Entity<Plant>().HasData(
@@ -57,19 +57,18 @@ namespace GreenThumb.Database
                 {
                     PlantId = 1,
                     Name = "flower",
-                    InstructionId = 1,
                 },
                 new Plant()
                 {
                     PlantId = 2,
                     Name = "strawberry",
-                    InstructionId = 2,
+
                 },
                 new Plant()
                 {
                     PlantId = 3,
                     Name = "cactus",
-                    InstructionId = 3,
+
                 }
                 );
 

@@ -29,6 +29,6 @@ namespace GreenThumb.Models
 
         public List<Plant> Plants { get; set; } = new();
 
-
+        //Many to many relaionship med plants
     }
 }

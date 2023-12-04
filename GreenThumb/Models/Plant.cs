@@ -11,10 +11,10 @@ namespace GreenThumb.Models
         [Column("name")]
         public string Name { get; set; } = null!;
 
-        [Column("instruction_id")]
-        public int InstructionId { get; set; }
-        public Instruction? Instruction { get; set; }
-
         public List<Garden> Gardens { get; set; } = new();
+
+        //one to many relaionship med Instructions
+        public List<Instruction> Instructions { get; set; } = new();
+
     }
 }
