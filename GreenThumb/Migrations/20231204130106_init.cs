@@ -4,12 +4,12 @@
 
 namespace GreenThumb.Migrations
 {
-    public partial class initcreation : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Plant",
+                name: "Plants",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
@@ -18,11 +18,11 @@ namespace GreenThumb.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Plant", x => x.id);
+                    table.PrimaryKey("PK_Plants", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Users",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
@@ -32,11 +32,11 @@ namespace GreenThumb.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.id);
+                    table.PrimaryKey("PK_Users", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Instruction",
+                name: "Instructions",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
@@ -46,17 +46,17 @@ namespace GreenThumb.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Instruction", x => x.id);
+                    table.PrimaryKey("PK_Instructions", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Instruction_Plant_plant_id",
+                        name: "FK_Instructions_Plants_plant_id",
                         column: x => x.plant_id,
-                        principalTable: "Plant",
+                        principalTable: "Plants",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Garden",
+                name: "Gardens",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
@@ -68,11 +68,11 @@ namespace GreenThumb.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Garden", x => x.id);
+                    table.PrimaryKey("PK_Gardens", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Garden_User_user_id",
+                        name: "FK_Gardens_Users_user_id",
                         column: x => x.user_id,
-                        principalTable: "User",
+                        principalTable: "Users",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -88,54 +88,48 @@ namespace GreenThumb.Migrations
                 {
                     table.PrimaryKey("PK_GardenPlant", x => new { x.GardensGardenId, x.PlantsPlantId });
                     table.ForeignKey(
-                        name: "FK_GardenPlant_Garden_GardensGardenId",
+                        name: "FK_GardenPlant_Gardens_GardensGardenId",
                         column: x => x.GardensGardenId,
-                        principalTable: "Garden",
+                        principalTable: "Gardens",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_GardenPlant_Plant_PlantsPlantId",
+                        name: "FK_GardenPlant_Plants_PlantsPlantId",
                         column: x => x.PlantsPlantId,
-                        principalTable: "Plant",
+                        principalTable: "Plants",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
-                table: "Plant",
+                table: "Plants",
                 columns: new[] { "id", "name" },
                 values: new object[] { 1, "flower" });
 
             migrationBuilder.InsertData(
-                table: "Plant",
+                table: "Plants",
                 columns: new[] { "id", "name" },
                 values: new object[] { 2, "strawberry" });
 
             migrationBuilder.InsertData(
-                table: "Plant",
+                table: "Plants",
                 columns: new[] { "id", "name" },
                 values: new object[] { 3, "cactus" });
 
             migrationBuilder.InsertData(
-                table: "Instruction",
+                table: "Instructions",
                 columns: new[] { "id", "description", "plant_id" },
                 values: new object[] { 1, "water the plant", 1 });
 
             migrationBuilder.InsertData(
-                table: "Instruction",
+                table: "Instructions",
                 columns: new[] { "id", "description", "plant_id" },
                 values: new object[] { 2, "harvest the plant", 2 });
 
             migrationBuilder.InsertData(
-                table: "Instruction",
+                table: "Instructions",
                 columns: new[] { "id", "description", "plant_id" },
                 values: new object[] { 3, "fertilize the plant", 3 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Garden_user_id",
-                table: "Garden",
-                column: "user_id",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_GardenPlant_PlantsPlantId",
@@ -143,19 +137,25 @@ namespace GreenThumb.Migrations
                 column: "PlantsPlantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Instruction_plant_id",
-                table: "Instruction",
+                name: "IX_Gardens_user_id",
+                table: "Gardens",
+                column: "user_id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Instructions_plant_id",
+                table: "Instructions",
                 column: "plant_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Plant_name",
-                table: "Plant",
+                name: "IX_Plants_name",
+                table: "Plants",
                 column: "name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_name",
-                table: "User",
+                name: "IX_Users_name",
+                table: "Users",
                 column: "name",
                 unique: true);
         }
@@ -166,16 +166,16 @@ namespace GreenThumb.Migrations
                 name: "GardenPlant");
 
             migrationBuilder.DropTable(
-                name: "Instruction");
+                name: "Instructions");
 
             migrationBuilder.DropTable(
-                name: "Garden");
+                name: "Gardens");
 
             migrationBuilder.DropTable(
-                name: "Plant");
+                name: "Plants");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Users");
         }
     }
 }

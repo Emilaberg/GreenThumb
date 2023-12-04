@@ -15,10 +15,10 @@ namespace GreenThumb.Database
             _provider = new GenerateEncryptionProvider("DettaArEnSakerStrang!!!!");
         }
 
-        public DbSet<Garden> Garden { get; set; }
-        public DbSet<Instruction> Instruction { get; set; }
-        public DbSet<Plant> Plant { get; set; }
-        public DbSet<User> User { get; set; }
+        public DbSet<Garden> Gardens { get; set; }
+        public DbSet<Instruction> Instructions { get; set; }
+        public DbSet<Plant> Plants { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
