@@ -1,5 +1,5 @@
-﻿using GreenThumb.Database;
-using GreenThumb.Models;
+﻿using GreenThumb.Controllers;
+using GreenThumb.Managers;
 using System.Windows;
 
 namespace GreenThumb
@@ -14,13 +14,26 @@ namespace GreenThumb
             InitializeComponent();
 
 
-            using (GreenThumbDbContext context = new())
-            {
-                UnitOfWorkRepository uow = new(context);
+            //using (GreenThumbDbContext context = new())
+            //{
+            //    UnitOfWorkRepository uow = new(context);
 
-                Plant plant = uow.PlantRepository.GetPlantById(2);
-                MessageBox.Show($"{plant.Name}");
+            //    User user = new()
+            //    {
+            //        Name = "user",
+            //        Password = "hej123"
+            //    };
+            //    uow.UserRepository.CreateUser(user);
+            //    uow.Complete();
+            //}
+
+
+            if (ValidationController.ValidateLogin("Admin1", "hej123"))
+            {
+                MessageBox.Show($"{SessionManager.UserSessionId}");
             }
+
+
         }
     }
 }

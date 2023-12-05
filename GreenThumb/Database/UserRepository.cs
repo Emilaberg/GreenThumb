@@ -15,7 +15,11 @@ namespace GreenThumb.Database
         {
             return _context.Users.ToList();
         }
-
+        //Method for login. 
+        public User? GetUserByCredentials(string username, string password)
+        {
+            return _context.Users.FirstOrDefault(u => u.Name == username && u.Password == password);
+        }
 
         //show All
         public User? GetUserById(int id)
@@ -59,6 +63,7 @@ namespace GreenThumb.Database
             }
 
         }
+
 
         public void Complete()
         {
