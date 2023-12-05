@@ -45,14 +45,36 @@ namespace GreenThumb.Managers
                 return user;
 
             }
-            else
-            {
-                return null;
-            }
+            return null;
+
         }
 
         //Register
         //logga in användaren
+        public User? Register(string username, string password)
+        {
+            if (IsUsernameTaken(username))
+            {
+                return null;
+            }
 
+            User newUser = new()
+            {
+                Name = username,
+                Password = password
+            };
+            _unitOfWork.UserRepository.CreateUser(newUser);
+            _unitOfWork.Complete();
+            return _unitOfWork.UserRepository.GetUserByCredentials(username, password);
+        }
+
+        public bool IsUsernameTaken(string username)
+        {
+            if (_unitOfWork.UserRepository.IsTaken(username) == false)
+            {
+                return false;
+            }
+            return true;
+        }
     }
 }

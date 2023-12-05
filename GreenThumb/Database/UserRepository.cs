@@ -10,6 +10,14 @@ namespace GreenThumb.Database
         {
             _context = context;
         }
+        public bool IsTaken(string username)
+        {
+            if (_context.Users.FirstOrDefault(u => u.Name == username) == null)
+            {
+                return false;
+            }
+            return true;
+        }
 
         public List<User> GetAll()
         {

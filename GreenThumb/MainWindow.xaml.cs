@@ -26,9 +26,12 @@ namespace GreenThumb
             //    uow.UserRepository.CreateUser(user);
             //    uow.Complete();
             //}
+            //if (ValidationController.ValidateRegister("Admin2", "hej123", "hej123"))
+            //{
+            //    MessageBox.Show($"{SessionManager.UserSessionId}");
+            //}
 
-
-            if (ValidationController.ValidateLogin("Admin1", "hej123"))
+            if (ValidationController.ValidateLogin("Admin2", "hej123"))
             {
                 MessageBox.Show($"{SessionManager.UserSessionId}");
             }

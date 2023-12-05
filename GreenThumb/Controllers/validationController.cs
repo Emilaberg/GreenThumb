@@ -50,5 +50,56 @@ namespace GreenThumb.Controllers
 
             }
         }
+
+        public static bool ValidateRegister(string username, string password, string confirmPassword)
+        {
+
+            if (username == "" && password == "" && confirmPassword == "") //Om man inte skrivit in nånting alls
+            {
+                MessageBox.Show("you need to type a username, password and confirm password", "Alert");
+                return false;
+            }
+            else if (username == "" && password != "") //om man inte skrivit in ett username
+            {
+                MessageBox.Show("you need to type a username", "Alert");
+                return false;
+            }
+            else if (username != "" && password == "") // om man inte skrivit in ett password 
+            {
+                MessageBox.Show("you need to type a password", "Alert");
+                return false;
+            }
+            else if (username != "" && password != "" && confirmPassword == "") // confirm password är tom
+            {
+                MessageBox.Show("you need to confirm password", "Alert");
+                return false;
+            }
+            else
+            {
+                if (password != confirmPassword)
+                {
+                    MessageBox.Show("password was not the same, try again", "Alert");
+                    return false;
+                }
+                else if (username.Length > 5 && username.Length < 10 && password.Length > 5 && password.Length < 50)
+                {
+                    using (GreenThumbDbContext context = new())
+                    {
+                        AuthManager authManager = new(new UnitOfWorkRepository(context));
+                        var user = authManager.Register(username, password);
+                        if (user != null)
+                        {
+                            SessionManager.UserSessionId = user.UserId;
+                            return true;
+                        }
+                        MessageBox.Show($"username {username} is already taken, please select a different username.");
+                        return false;
+                    }
+                }
+                MessageBox.Show($" {SessionManager.UserSessionId}  username must be 5-10 characters and password between 5-50 characters and/or number ", "Alert");
+                return false;
+            }
+
+        }
     }
 }
