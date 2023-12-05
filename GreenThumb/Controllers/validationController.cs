@@ -6,7 +6,7 @@ namespace GreenThumb.Controllers
 {
     public static class ValidationController
     {
-        public static bool ValidateLogin(string username, string password)
+        public async static Task<bool> LoginUserAsync(string username, string password)
         {
             //om username och password är korrekt skrivna, kör loginUser()
             if (username == "" && password == "") //Om man inte skrivit in nånting alls
@@ -33,8 +33,9 @@ namespace GreenThumb.Controllers
                     {
                         //creating a new authmanager
                         AuthManager authManager = new(new UnitOfWorkRepository(context));
-                        //try to log the user in.
-                        var user = authManager.Login(username, password);
+                        
+                        //TODOOOOOOO await??
+                        var user =  await authManager.LoginAsync(username, password);
                         if (user != null)
                         {
                             SessionManager.UserSessionId = user.UserId;
@@ -51,7 +52,7 @@ namespace GreenThumb.Controllers
             }
         }
 
-        public static bool ValidateRegister(string username, string password, string confirmPassword)
+        public async static Task<bool> RegisterUserAsync(string username, string password, string confirmPassword)
         {
 
             if (username == "" && password == "" && confirmPassword == "") //Om man inte skrivit in nånting alls
@@ -86,7 +87,7 @@ namespace GreenThumb.Controllers
                     using (GreenThumbDbContext context = new())
                     {
                         AuthManager authManager = new(new UnitOfWorkRepository(context));
-                        var user = authManager.Register(username, password);
+                        var user = await authManager.RegisterAsync(username, password);
                         if (user != null)
                         {
                             SessionManager.UserSessionId = user.UserId;

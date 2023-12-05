@@ -1,53 +1,60 @@
 ﻿using GreenThumb.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GreenThumb.Database
 {
     public class UserRepository
     {
+        //RULE!! 
+        //de metoder som returnera nånting, sätter jag till async await metoder, och de som endast skapar eller raderar
+
         private readonly GreenThumbDbContext _context;
 
         public UserRepository(GreenThumbDbContext context)
         {
             _context = context;
         }
-        public bool IsTaken(string username)
+
+
+        public async Task<bool> IsTakenAsync(string username)
         {
-            if (_context.Users.FirstOrDefault(u => u.Name == username) == null)
+            if (await _context.Users.FirstOrDefaultAsync(u => u.Name == username) == null)
             {
                 return false;
             }
             return true;
         }
 
-        public List<User> GetAll()
+        public async Task<List<User>> GetAllAsync()
         {
-            return _context.Users.ToList();
+            return await _context.Users.ToListAsync();
         }
+
         //Method for login. 
-        public User? GetUserByCredentials(string username, string password)
+        public async Task<User?> GetUserByCredentialsAsync(string username, string password)
         {
-            return _context.Users.FirstOrDefault(u => u.Name == username && u.Password == password);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Name == username && u.Password == password);
         }
 
         //show All
-        public User? GetUserById(int id)
+        public async Task<User?> GetUserByIdAsync(int id)
         {
 
-            return _context.Users.FirstOrDefault(u => u.UserId == id);
+             return await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
         }
 
         //Create
 
-        public void CreateUser(User user)
+        public async Task CreateUserAsync(User user)
         {
-            _context.Users.Add(user);
+            await _context.Users.AddAsync(user);
         }
 
         //update
 
-        public void UpdateSelectedUser(int id, User updatedUser)
+        public async Task UpdateSelectedUserAsync(int id, User updatedUser)
         {
-            User? userToUpdate = _context.Users.FirstOrDefault(u => u.UserId == id);
+            User? userToUpdate =  await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
 
             if (userToUpdate != null)
             {
@@ -61,21 +68,23 @@ namespace GreenThumb.Database
 
         //delete
 
-        public void RemoveSelectedUser(int id)
+
+        
+        public async Task RemoveSelectedUserAsync(int id)
         {
-            User? userToRemove = GetUserById(id);
+             User? userToRemove = await GetUserByIdAsync(id);
 
             if (userToRemove != null)
             {
-                _context.Users.Remove(userToRemove);
+               _context.Users.Remove(userToRemove);
             }
 
         }
 
 
-        public void Complete()
+        public async Task CompleteAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
     }

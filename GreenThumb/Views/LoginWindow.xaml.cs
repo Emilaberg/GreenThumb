@@ -1,5 +1,6 @@
 ﻿using GreenThumb.Controllers;
 using GreenThumb.Managers;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 
 namespace GreenThumb.Views
@@ -12,27 +13,19 @@ namespace GreenThumb.Views
         public LoginWindow()
         {
             InitializeComponent();
+            Login();
 
 
-
-            //using (GreenThumbDbContext context = new())
-            //{
-            //    UnitOfWorkRepository uow = new(context);
-
-            //    User user = new()
-            //    {
-            //        Name = "user",
-            //        Password = "hej123"
-            //    };
-            //    uow.UserRepository.CreateUser(user);
-            //    uow.Complete();
-            //}
-            //if (ValidationController.ValidateRegister("Admin2", "hej123", "hej123"))
+            //if (ValidationController.LoginUser("Admin2", "hej123"))
             //{
             //    MessageBox.Show($"{SessionManager.UserSessionId}");
             //}
+        }
 
-            if (ValidationController.ValidateLogin("Admin2", "hej123"))
+
+        public async Task Login()
+        {
+            if (await ValidationController.LoginUserAsync("Admin1", "hej123"))
             {
                 MessageBox.Show($"{SessionManager.UserSessionId}");
             }

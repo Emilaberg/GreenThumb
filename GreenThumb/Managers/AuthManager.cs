@@ -19,9 +19,9 @@ namespace GreenThumb.Managers
         //kolla om den inskickade usern finns i databasen, 
         //om den finns
         //returnera user
-        private User? Validate(string username, string password)
+        private async Task<User?> ValidateAsync(string username, string password)
         {
-            var user = _unitOfWork.UserRepository.GetUserByCredentials(username, password);
+            var user = await _unitOfWork.UserRepository.GetUserByCredentialsAsync(username, password);
             if (user != null)
             {
                 return user;
@@ -36,9 +36,9 @@ namespace GreenThumb.Managers
         //Login 
         //kör validation
         //om validation är true logga in användaren
-        public User? Login(string username, string password)
+        public async Task<User?> LoginAsync(string username, string password)
         {
-            var user = Validate(username, password);
+            var user = await ValidateAsync(username, password);
             if (user != null)
             {
 
@@ -51,9 +51,9 @@ namespace GreenThumb.Managers
 
         //Register
         //logga in användaren
-        public User? Register(string username, string password)
+        public async Task<User?> RegisterAsync(string username, string password)
         {
-            if (IsUsernameTaken(username))
+            if (await IsUsernameTakenAsync(username))
             {
                 return null;
             }
@@ -63,14 +63,14 @@ namespace GreenThumb.Managers
                 Name = username,
                 Password = password
             };
-            _unitOfWork.UserRepository.CreateUser(newUser);
+            await _unitOfWork.UserRepository.CreateUserAsync(newUser);
             _unitOfWork.Complete();
-            return _unitOfWork.UserRepository.GetUserByCredentials(username, password);
+            return await _unitOfWork.UserRepository.GetUserByCredentialsAsync(username, password);
         }
 
-        public bool IsUsernameTaken(string username)
+        public async Task<bool> IsUsernameTakenAsync(string username)
         {
-            if (_unitOfWork.UserRepository.IsTaken(username) == false)
+            if (await _unitOfWork.UserRepository.IsTakenAsync(username) == false)
             {
                 return false;
             }
