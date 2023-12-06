@@ -33,9 +33,9 @@ namespace GreenThumb.Controllers
                     {
                         //creating a new authmanager
                         AuthManager authManager = new(new UnitOfWorkRepository(context));
-                        
+
                         //TODOOOOOOO await??
-                        var user =  await authManager.LoginAsync(username, password);
+                        var user = await authManager.LoginAsync(username, password);
                         if (user != null)
                         {
                             SessionManager.UserSessionId = user.UserId;

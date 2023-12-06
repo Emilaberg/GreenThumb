@@ -1,4 +1,5 @@
 ﻿using GreenThumb.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GreenThumb.Database
 {
@@ -11,31 +12,31 @@ namespace GreenThumb.Database
             _context = context;
         }
 
-        public List<Instruction> GetAll()
+        public async Task<List<Instruction>> GetAllAsync()
         {
-            return _context.Instructions.ToList();
+            return await _context.Instructions.ToListAsync();
         }
 
 
         //show All
-        public Instruction? GetInstructionById(int id)
+        public async Task<Instruction?> GetInstructionByIdAsync(int id)
         {
 
-            return _context.Instructions.FirstOrDefault(i => i.InstructionId == id);
+            return await _context.Instructions.FirstOrDefaultAsync(i => i.InstructionId == id);
         }
 
         //Create
 
-        public void CreateInstruction(Instruction instruction)
+        public async Task CreateInstructionAsync(Instruction instruction)
         {
-            _context.Instructions.Add(instruction);
+            await _context.Instructions.AddAsync(instruction);
         }
 
         //update
 
-        public void UpdateSelectedInstruction(int id, Instruction updatedInstruction)
+        public async Task UpdateSelectedInstructionAsync(int id, Instruction updatedInstruction)
         {
-            Instruction? instructionToUpdate = _context.Instructions.FirstOrDefault(i => i.InstructionId == id);
+            Instruction? instructionToUpdate = await _context.Instructions.FirstOrDefaultAsync(i => i.InstructionId == id);
 
             if (instructionToUpdate != null)
             {
@@ -50,9 +51,9 @@ namespace GreenThumb.Database
 
         //delete
 
-        public void RemoveSelectedUser(int id)
+        public async Task RemoveSelectedUserAsync(int id)
         {
-            Instruction? instructionToRemove = GetInstructionById(id);
+            Instruction? instructionToRemove = await GetInstructionByIdAsync(id);
 
             if (instructionToRemove != null)
             {
@@ -61,9 +62,9 @@ namespace GreenThumb.Database
 
         }
 
-        public void Complete()
+        public async Task CompleteAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

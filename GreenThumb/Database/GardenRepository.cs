@@ -1,4 +1,5 @@
 ﻿using GreenThumb.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GreenThumb.Database
 {
@@ -11,31 +12,31 @@ namespace GreenThumb.Database
             _context = context;
         }
 
-        public List<Garden> GetAll()
+        public async Task<List<Garden>> GetAllAsync()
         {
-            return _context.Gardens.ToList();
+            return await _context.Gardens.ToListAsync();
         }
 
 
         //show All
-        public Garden? GetGardenById(int id)
+        public async Task<Garden?> GetGardenByIdAsync(int id)
         {
 
-            return _context.Gardens.FirstOrDefault(g => g.GardenId == id);
+            return await _context.Gardens.FirstOrDefaultAsync(g => g.GardenId == id);
         }
 
         //Create
 
-        public void CreateGarden(Garden garden)
+        public async Task CreateGardenAsync(Garden garden)
         {
-            _context.Gardens.Add(garden);
+            await _context.Gardens.AddAsync(garden);
         }
 
         //update
 
-        public void UpdateSelectedGarden(int id, Garden updatedGarden)
+        public async Task UpdateSelectedGardenAsync(int id, Garden updatedGarden)
         {
-            Garden? gardenToUpdate = _context.Gardens.FirstOrDefault(g => g.GardenId == id);
+            Garden? gardenToUpdate = await _context.Gardens.FirstOrDefaultAsync(g => g.GardenId == id);
 
             if (gardenToUpdate != null)
             {
@@ -52,9 +53,9 @@ namespace GreenThumb.Database
 
         //delete
 
-        public void RemoveSelectedGarden(int id)
+        public async Task RemoveSelectedGardenTask(int id)
         {
-            Garden? gardenToRemove = GetGardenById(id);
+            Garden? gardenToRemove = await GetGardenByIdAsync(id);
 
             if (gardenToRemove != null)
             {
@@ -63,9 +64,9 @@ namespace GreenThumb.Database
 
         }
 
-        public void Complete()
+        public async Task Complete()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

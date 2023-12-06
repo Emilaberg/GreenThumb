@@ -1,4 +1,5 @@
 ﻿using GreenThumb.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace GreenThumb.Database
 {
@@ -11,30 +12,30 @@ namespace GreenThumb.Database
             _context = context;
         }
 
-        public List<Plant> GetAll()
+        public async Task<List<Plant>> GetAllAsync()
         {
-            return _context.Plants.ToList();
+            return await _context.Plants.ToListAsync();
         }
 
 
         //show All
-        public Plant? GetPlantById(int id)
+        public async Task<Plant?> GetPlantByIdAsync(int id)
         {
 
-            return _context.Plants.FirstOrDefault(p => p.PlantId == id);
+            return await _context.Plants.FirstOrDefaultAsync(p => p.PlantId == id);
         }
 
         //Create
-        public void CreatePlant(Plant plant)
+        public async Task CreatePlantAsync(Plant plant)
         {
-            _context.Plants.Add(plant);
+            await _context.Plants.AddAsync(plant);
         }
 
         //update
 
-        public void UpdateSelectedPlant(int id, Plant updatedPlant)
+        public async Task UpdateSelectedPlantAsync(int id, Plant updatedPlant)
         {
-            Plant? plantToUpdate = _context.Plants.FirstOrDefault(p => p.PlantId == id);
+            Plant? plantToUpdate = await _context.Plants.FirstOrDefaultAsync(p => p.PlantId == id);
 
             if (plantToUpdate != null)
             {
@@ -48,9 +49,9 @@ namespace GreenThumb.Database
 
         //delete
 
-        public void RemoveSelectedPlant(int id)
+        public async Task RemoveSelectedPlantAsync(int id)
         {
-            Plant? plantToRemove = GetPlantById(id);
+            Plant? plantToRemove = await GetPlantByIdAsync(id);
 
             if (plantToRemove != null)
             {
@@ -58,9 +59,9 @@ namespace GreenThumb.Database
             }
         }
 
-        public void Complete()
+        public async Task CompleteAsync()
         {
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

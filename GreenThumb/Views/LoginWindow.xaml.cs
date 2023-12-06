@@ -1,6 +1,5 @@
 ﻿using GreenThumb.Controllers;
 using GreenThumb.Managers;
-using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 
 namespace GreenThumb.Views
@@ -16,7 +15,7 @@ namespace GreenThumb.Views
             Login();
 
 
-            //if (ValidationController.LoginUser("Admin2", "hej123"))
+            //if (ValidastionController.LoginUser("Admin2", "hej123"))
             //{
             //    MessageBox.Show($"{SessionManager.UserSessionId}");
             //}
@@ -25,7 +24,7 @@ namespace GreenThumb.Views
 
         public async Task Login()
         {
-            if (await ValidationController.LoginUserAsync("Admin1", "hej123"))
+            if (await ValidationController.LoginUserAsync("", "hej123"))
             {
                 MessageBox.Show($"{SessionManager.UserSessionId}");
             }
