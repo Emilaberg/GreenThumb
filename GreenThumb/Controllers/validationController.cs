@@ -38,14 +38,15 @@ namespace GreenThumb.Controllers
                         var user = await authManager.LoginAsync(username, password);
                         if (user != null)
                         {
-                            SessionManager.UserSessionId = user.UserId;
+                            AuthManager.CurrentUser = user;
+                            AuthManager.UserSessionId = user.UserId;
                             return true;
                         }
                         MessageBox.Show("There are no user registrerd with these credentials.", "Alert");
                         return false;
                     }
                 }
-                MessageBox.Show($" {SessionManager.UserSessionId}  username must be 5-10 characters and password between 5-50 characters and/or number ", "Alert");
+                MessageBox.Show($"username must be 5-10 characters and password between 5-50 characters and/or number ", "Alert");
                 return false;
 
 
@@ -90,14 +91,15 @@ namespace GreenThumb.Controllers
                         var user = await authManager.RegisterAsync(username, password);
                         if (user != null)
                         {
-                            SessionManager.UserSessionId = user.UserId;
+                            AuthManager.CurrentUser = user;
+                            AuthManager.UserSessionId = user.UserId;
                             return true;
                         }
                         MessageBox.Show($"username {username} is already taken, please select a different username.");
                         return false;
                     }
                 }
-                MessageBox.Show($" {SessionManager.UserSessionId}  username must be 5-10 characters and password between 5-50 characters and/or number ", "Alert");
+                MessageBox.Show($"username must be 5-10 characters and password between 5-50 characters and/or number ", "Alert");
                 return false;
             }
 

@@ -6,11 +6,12 @@ namespace GreenThumb.Managers
     public class AuthManager
     {
         private readonly UnitOfWorkRepository _unitOfWork;
+        public static int? UserSessionId { get; set; }
+        public static User? CurrentUser { get; set; }
 
         public AuthManager(UnitOfWorkRepository unitOfWork)
         {
             _unitOfWork = unitOfWork;
-
 
         }
 
@@ -75,6 +76,12 @@ namespace GreenThumb.Managers
                 return false;
             }
             return true;
+        }
+
+        public static void CloseSession()
+        {
+            UserSessionId = null;
+            CurrentUser = null;
         }
     }
 }

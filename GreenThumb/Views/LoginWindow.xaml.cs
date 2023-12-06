@@ -15,19 +15,17 @@ namespace GreenThumb.Views
             Login();
 
 
-            //if (ValidastionController.LoginUser("Admin2", "hej123"))
-            //{
-            //    MessageBox.Show($"{SessionManager.UserSessionId}");
-            //}
         }
 
 
         public async Task Login()
         {
-            if (await ValidationController.LoginUserAsync("", "hej123"))
+            if (await ValidationController.LoginUserAsync("Admin1", "hej123"))
             {
-                MessageBox.Show($"{SessionManager.UserSessionId}");
+                MessageBox.Show($"{AuthManager.UserSessionId} {AuthManager.CurrentUser.Name}");
             }
         }
+
+
     }
 }
