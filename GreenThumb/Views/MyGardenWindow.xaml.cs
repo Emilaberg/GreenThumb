@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using GreenThumb.Managers;
+using System.Windows;
 
 namespace GreenThumb.Views
 {
@@ -12,17 +13,29 @@ namespace GreenThumb.Views
             InitializeComponent();
         }
 
-        private void BtnTravelDetails_Click(object sender, RoutedEventArgs e)
+
+        private void BtnPlantDetails_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void btnRemoveTravel_Click(object sender, RoutedEventArgs e)
+        private void btnRemoveGarden_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void BtnAddTravel_Click(object sender, RoutedEventArgs e)
+        private void BtnAddGarden_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            ViewManager.LoginWindow().Show();
+            Close();
+        }
+
+        private void BtnAccount_Click(object sender, RoutedEventArgs e)
         {
 
         }

@@ -41,7 +41,7 @@
             Direction="360"
             Color="#6ACA20"
             Opacity="1"
-            BlurRadius="30"/>
+            BlurRadius="20"/>
             </TextBlock.Effect>
         </TextBlock>
         

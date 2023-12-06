@@ -26,7 +26,8 @@ namespace GreenThumb.Views
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-
+            ViewManager.MyGardenWindow().Show();
+            Close();
         }
 
         private void BtnRegister_Click(object sender, RoutedEventArgs e)
