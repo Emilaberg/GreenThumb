@@ -12,8 +12,6 @@ namespace GreenThumb.Views
         public LoginWindow()
         {
             InitializeComponent();
-            Login();
-
 
         }
 
@@ -26,6 +24,15 @@ namespace GreenThumb.Views
             }
         }
 
+        private void BtnLogin_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
+
+        private void BtnRegister_Click(object sender, RoutedEventArgs e)
+        {
+            ViewManager.RegistrationWindow().Show();
+            Close();
+        }
     }
 }

@@ -11,5 +11,20 @@ namespace GreenThumb.Views
         {
             InitializeComponent();
         }
+
+        private void BtnTravelDetails_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnRemoveTravel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BtnAddTravel_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

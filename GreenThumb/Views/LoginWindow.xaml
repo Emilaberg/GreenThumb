@@ -5,6 +5,71 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GreenThumb.Views"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="450" Width="800">
-    <Grid/>
+        Title="MainWindow" Height="700" Width="1000" Background="#1b1b1b" ResizeMode="NoResize" >
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Green Thumb" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="5" VerticalAlignment="Bottom" HorizontalAlignment="Center" Padding="0" Margin="0 0 0 -10" FontSize="70" FontFamily="Arial" Foreground="#4C9613" FontWeight="Bold">
+            <TextBlock.Effect>
+                <DropShadowEffect
+            ShadowDepth="0"
+            Direction="360"
+            Color="#6ACA20"
+            Opacity="1"
+            BlurRadius="30"/>
+            </TextBlock.Effect>
+        </TextBlock>
+        
+        <Image Grid.Column="1" Grid.Row="3" Grid.RowSpan="5" Grid.ColumnSpan="3" Source="C:\Users\emila\Documents\projektSkola\slutProjekt\GreenThumb\GreenThumb\Media\green-thumb-logo.png">
+            <Image.Effect>
+                <DropShadowEffect
+                    ShadowDepth="0"
+                    Direction="360"
+                    Color="#6ACA20"
+                    Opacity="1"
+                    BlurRadius="30"/>
+            </Image.Effect>
+        </Image>
+
+
+
+        <Border Grid.Column="5" Grid.Row="2" Grid.ColumnSpan="4" Grid.RowSpan="7" BorderBrush="#1b1b1b" BorderThickness="2" CornerRadius="10" Background="#2D2D2D"/>
+
+        <Label Grid.Column="5" Grid.Row="3" Grid.ColumnSpan="4" HorizontalAlignment="Center" Content="Login or create an Account" Foreground="#F5FFFA" FontSize="18" FontWeight="Bold"/>
+
+        <Label Content="Username" Foreground="#F5FFFA" Grid.Column="6" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" FontWeight="Bold"/>
+        <TextBox Name="txtUsername" Foreground="#000022" FontWeight="Medium" Grid.Column="7" Grid.Row="4" VerticalAlignment="Center" />
+
+        <Label Content="Password" Foreground="#F5FFFA" Grid.Column="6" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 0 5 0" FontWeight="Bold"/>
+        <PasswordBox Name="txtPassword" Foreground="#000022" FontWeight="Medium" Grid.Column="7" Grid.Row="5" VerticalAlignment="Center" />
+
+        <Button Name="BtnLogin" Content="Login" Grid.Column="7" Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Top" Width="60" Background="#383838" Foreground="White" BorderBrush="#383838" FontWeight="Bold" FontSize="10" Click="BtnLogin_Click"/>
+        <Button Name="BtnRegister" Content="Register Account" Grid.Column="7" Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 5 0 0" Background="#2D2D2D" Foreground="White" BorderBrush="#2D2D2D" FontSize="8" FontWeight="Bold" Click="BtnRegister_Click"/>
+
+    </Grid>
 </Window>

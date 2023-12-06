@@ -5,8 +5,52 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GreenThumb.Views"
         mc:Ignorable="d"
-        Title="MyGardenWindow" Height="450" Width="800">
+        Title="TravelsWindow" Height="700" Width="1000" Background="#F5FFFA" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="40"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition Height="4*"/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Label Content="TravelPal" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="20" Foreground="#7B68EE"/>
+        <Button Content="Help" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Right" Background="#14591D" Foreground="#F5FFFA" FontSize="14" Margin="0 0 20 0" Padding="6 2 6 2"/>
+
+        <Label Name="lblUsername" Content="UserName" Grid.Column="5" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="16" Margin="0 0 5 0"/>
+        <Button Name="BtnAccount" Content="Account" Grid.Column="6" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#F5FFFA" BorderBrush="#F5FFFA" FontSize="16"/>
+        <Button Name="BtnLogout" Content="Logout" Grid.Column="6" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Background="#F5FFFA" BorderBrush="#F5FFFA" FontSize="16" Margin="0 0 20 0" Padding="6 3 6 3" Foreground="#7B68EE"/>
+
+
+        <Label Name="txtWelcome" Content="Welcome Back [Username]" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="32" FontWeight="Bold" Foreground="#F6AE2D"/>
+
+        <Button Name="BtnPlantDetails" Content="Details" Grid.Column="6" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#14591D" Foreground="#F5FFFA" FontSize="14" Margin="0 5 5 5" Padding="6 3 6 3"/>
         
+        <ListView Name="lstGardens" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" Margin="5" Background="#F5FFFA" BorderBrush="#F5FFFA"/>
+        <Border Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" BorderBrush="#000022" BorderThickness="2" CornerRadius="10" Margin="0 0 5 0" />
+        
+        <ListView Name="lstPlants" Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="4" Margin="5" Background="#F5FFFA" BorderBrush="#F5FFFA"/>
+        <Border Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="4" BorderBrush="#000022" BorderThickness="2" CornerRadius="10" Margin="5 0 0 0"/>
+
+        <Button Name="BtnAddGarden" Content="Add" Grid.Column="3" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#F5FFFA" BorderBrush="#000022" BorderThickness="2" FontSize="14" Margin="0 0 5 6" Padding="6 3 6 3"/>
+        <Button Name="btnRemoveGarden" Content="Remove" Grid.Column="3" Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Center" Background="#F5FFFA" BorderBrush="Red" BorderThickness="2" FontSize="14" Margin="0 0 5 5" Padding="6 3 6 3"/>
+
+
     </Grid>
 </Window>
