@@ -16,13 +16,12 @@ namespace GreenThumb.Database
         {
             return await _context.Gardens.ToListAsync();
         }
-
-
-        //show All
+        
+        //Get gardens
         public async Task<Garden?> GetGardenByIdAsync(int id)
         {
 
-            return await _context.Gardens.FirstOrDefaultAsync(g => g.GardenId == id);
+            return await _context.Gardens.Include(g => g.Plants).FirstOrDefaultAsync(g => g.UserId == id);
         }
 
         //Create

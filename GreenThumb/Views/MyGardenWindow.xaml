@@ -70,7 +70,7 @@
         <Button Name="BtnLogout" Content="Logout" Grid.Column="6" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Center" Background="#2D2D2D" Foreground="White" BorderBrush="#2D2D2D" FontSize="16" Margin="0 0 20 0" Padding="6 3 6 3" Click="BtnLogout_Click"/>
 
 
-        <Label Name="txtWelcome" Content="Welcome Back [Username]" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="32" FontWeight="Bold" Foreground="white">
+        <Label Name="txtWelcome" Content="Welcome Back [Username]" Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="32" FontWeight="Bold" Foreground="white">
             <Label.Effect>
                 <DropShadowEffect
                     ShadowDepth="0"
@@ -81,21 +81,30 @@
                     />
             </Label.Effect>
         </Label>
-
+        <Label Content="My Gardens"  Grid.Column="1" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White" FontWeight="Bold" FontSize="16"/>
         <!--Garden list-->
         <Border Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" BorderBrush="#2D2D2D" Background="#2D2D2D" BorderThickness="2" CornerRadius="10" Margin="0 0 5 0" />
-        <ListView Name="lstGardens" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" Margin="10 5 10 5" Background="#2D2D2D" BorderBrush="#2D2D2D"/>
+        <ListView Name="lstGardens" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" Margin="10 5 10 5" Background="#2D2D2D" BorderBrush="#2D2D2D" SelectionChanged="lstGardens_SelectionChanged"/>
 
         
         <!--Search bar-->
         <Label Content="Search:"  Grid.Column="4" Grid.Row="4" VerticalAlignment="Top" HorizontalAlignment="Right" Foreground="White" FontWeight="Bold" FontSize="16"/>
+        <Label Content="Plants"  Grid.Column="4" Grid.Row="4" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="White" FontWeight="Bold" FontSize="16"/>
+        
         <Border Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="4" Height="30" VerticalAlignment="Top" BorderBrush="White" Background="White" CornerRadius="10" Margin="5 0 0 0"/>
         <TextBox Name="txtSearch" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="4" VerticalContentAlignment="Center" BorderBrush="White" Height="20" VerticalAlignment="Top" Foreground="Black" Background="White" Margin="10 5 5 5"/>
         <!--plant list-->
         <Border Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" BorderBrush="#2D2D2D" Background="#2D2D2D" BorderThickness="2" CornerRadius="10" Height="200" Margin="5 -110 0 0"/>
-        <ListView Name="lstPlants" Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" Margin="10 -110 10 5" Background="#2D2D2D" BorderBrush="#2D2D2D" Height="190"/>
+        <ListView Name="lstPlants" Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" Margin="10 -110 10 5" Background="#3D3D3D" BorderBrush="#2D2D2D" Height="190">
+            
+            <!--<ListViewItem Background="#4D4D4D" Content="White cauliflower" Foreground="White"/>-->
+        </ListView>
+        
 
         <Button Name="BtnPlantDetails" Content="Details" Grid.Column="6" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#2D2D2D" Foreground="White" BorderBrush="#2D2D2D" FontSize="14" FontWeight="Bold" Margin="0 50 5 5" Padding="6 3 6 3" Click="BtnPlantDetails_Click"/>
+        <Button Name="BtnAddPlant" Content="Add" Grid.Column="6" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#2D2D2D" Foreground="White" BorderBrush="#2D2D2D" BorderThickness="2" FontSize="14" FontWeight="Bold" Margin="5 50 5 6" Padding="15 3 15 3" Click="BtnAddPlant_Click"/>
+        <Button Name="btnRemovePlant" Content="Remove" Grid.Column="5" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#2D2D2D" Foreground="White" BorderBrush="#2D2D2D" BorderThickness="2" FontSize="14" FontWeight="Bold" Margin="0 50 5 5" Padding="6 3 6 3"/>
+
 
         <Button Name="BtnAddGarden" Content="Add" Grid.Column="3" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#2D2D2D" Foreground="White" BorderBrush="#2D2D2D" BorderThickness="2" FontSize="14" FontWeight="Bold" Margin="0 0 5 6" Padding="15 3 15 3" Click="BtnAddGarden_Click"/>
         <Button Name="btnRemoveGarden" Content="Remove" Grid.Column="3" Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Center" Background="#2D2D2D" Foreground="White" BorderBrush="#2D2D2D" BorderThickness="2" FontSize="14" FontWeight="Bold" Margin="0 0 5 5" Padding="6 3 6 3" Click="btnRemoveGarden_Click"/>

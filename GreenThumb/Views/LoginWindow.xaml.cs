@@ -16,18 +16,22 @@ namespace GreenThumb.Views
         }
 
 
-        public async Task Login()
+        public async void Login()
         {
-            if (await ValidationController.LoginUserAsync("Admin1", "hej123"))
+            if (await ValidationController.LoginUserAsync(txtUsername.Text, txtPassword.Password))
             {
-                MessageBox.Show($"{AuthManager.UserSessionId} {AuthManager.CurrentUser.Name}");
+                //MessageBox.Show($"{AuthManager.UserSessionId} {AuthManager.CurrentUser.Name}");
+
+                MyGardenWindow myGardenWindow = ViewManager.MyGardenWindow();
+                Close();
+                myGardenWindow.Show();
             }
+            
         }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
         {
-            ViewManager.MyGardenWindow().Show();
-            Close();
+            Login();
         }
 
         private void BtnRegister_Click(object sender, RoutedEventArgs e)

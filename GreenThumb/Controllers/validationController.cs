@@ -27,29 +27,22 @@ namespace GreenThumb.Controllers
             else
             {
                 //username måste vara större än 5 och  mindre än 10, och lösenordet större än 5 och mindre än 50
-                if (username.Length > 5 && username.Length < 10 && password.Length > 5 && password.Length < 50)
+                using (GreenThumbDbContext context = new())
                 {
-                    using (GreenThumbDbContext context = new())
+                    //creating a new authmanager
+                    AuthManager authManager = new(new UnitOfWorkRepository(context));
+
+                    //TODOOOOOOO await??
+                    var user = await authManager.LoginAsync(username, password);
+                    if (user != null)
                     {
-                        //creating a new authmanager
-                        AuthManager authManager = new(new UnitOfWorkRepository(context));
-
-                        //TODOOOOOOO await??
-                        var user = await authManager.LoginAsync(username, password);
-                        if (user != null)
-                        {
-                            AuthManager.CurrentUser = user;
-                            AuthManager.UserSessionId = user.UserId;
-                            return true;
-                        }
-                        MessageBox.Show("There are no user registrerd with these credentials.", "Alert");
-                        return false;
+                        AuthManager.CurrentUser = user;
+                        AuthManager.UserSessionId = user.UserId;
+                        return true;
                     }
+                    MessageBox.Show("Password or Username was incorrect, try again", "Alert");
+                    return false;
                 }
-                MessageBox.Show($"username must be 5-10 characters and password between 5-50 characters and/or number ", "Alert");
-                return false;
-
-
             }
         }
 
