@@ -92,7 +92,7 @@
         <Label Content="Plants"  Grid.Column="4" Grid.Row="4" VerticalAlignment="Top" HorizontalAlignment="Left" Foreground="White" FontWeight="Bold" FontSize="16"/>
         
         <Border Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="4" Height="30" VerticalAlignment="Top" BorderBrush="White" Background="White" CornerRadius="10" Margin="5 0 0 0"/>
-        <TextBox Name="txtSearch" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="4" VerticalContentAlignment="Center" BorderBrush="White" Height="20" VerticalAlignment="Top" Foreground="Black" Background="White" Margin="10 5 5 5"/>
+        <TextBox Name="txtSearch" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="4" VerticalContentAlignment="Center" BorderBrush="White" Height="20" VerticalAlignment="Top" Foreground="Black" Background="White" Margin="10 5 5 5" TextChanged="txtSearch_TextChanged"/>
         <!--plant list-->
         <Border Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" BorderBrush="#2D2D2D" Background="#2D2D2D" BorderThickness="2" CornerRadius="10" Height="200" Margin="5 -110 0 0"/>
         <ListView Name="lstPlants" Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" Margin="10 -110 10 5" Background="#3D3D3D" BorderBrush="#2D2D2D" Height="190">

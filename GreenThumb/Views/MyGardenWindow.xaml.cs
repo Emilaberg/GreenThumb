@@ -20,7 +20,7 @@ namespace GreenThumb.Views
             InitUi();
 
         }
-
+        //initials the ui, get the data async and sets it to the ui.
         private void InitUi()
         {
             //Om det är första init så kör vi detta annars hämtar vi från "cache"
@@ -49,7 +49,7 @@ namespace GreenThumb.Views
                         foreach (Plant plant in AuthManager.AllPlants)
                         {
                             ListViewItem listViewItem = new();
-                            listViewItem.Content = $"{plant.Name}";
+                            listViewItem.Content = $"Name: {plant.Name}";
                             listViewItem.Tag = plant;
                             listViewItem.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D4D4D"));
                             listViewItem.Foreground = new SolidColorBrush(Colors.White);
@@ -84,7 +84,7 @@ namespace GreenThumb.Views
                     foreach (Plant plant in AuthManager.AllPlants)
                     {
                         ListViewItem listViewItem = new();
-                        listViewItem.Content = $" hej {plant.Name}";
+                        listViewItem.Content = $"Name: {plant.Name}";
                         listViewItem.Tag = plant;
                         listViewItem.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D4D4D"));
                         listViewItem.Foreground = new SolidColorBrush(Colors.White);
@@ -124,6 +124,53 @@ namespace GreenThumb.Views
             }
         }
 
+        //initials the ui, get the data async and sets it to the ui.
+
+
+
+
+        //SEARCH FUNCTIONALITY 
+
+        //DETECTS WHEN WRITING SOMETHING
+        private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //jag vill kalla på getSearchResult och skicka med det man skrev in.
+            GetSearchResult(txtSearch.Text);
+            if(AuthManager.FilteredPlants != null)
+            {
+                //sen vill jag rensa listan och fylla den med det nya.
+                lstPlants.Items.Clear();
+                foreach (Plant plant in AuthManager.FilteredPlants)
+                {
+                    ListViewItem listViewItem = new();
+                    listViewItem.Content = $"Name: {plant.Name}";
+                    listViewItem.Tag = plant;
+                    listViewItem.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D4D4D"));
+                    listViewItem.Foreground = new SolidColorBrush(Colors.White);
+                    lstPlants.Items.Add(listViewItem);
+                    
+                }
+            }
+        }
+
+        private void GetSearchResult(string searchstring)
+        {
+            //så när man skriver in nånting, då vill jag hämta alla de plantor som stämmer överens med det man skrivit
+            //för varje planta, vill jag kolla om namnet startar med det man skrivit in, isåfall 
+            AuthManager.FilteredPlants = AuthManager.AllPlants?.Where(p => p.Name.StartsWith(searchstring) == true).ToList();
+
+        }
+
+        //SEARCH FUNCTIONALITY 
+
+        //ADD PLANT TO GARDEN
+        private void BtnAddPlant_Click(object sender, RoutedEventArgs e)
+        {
+            //FÖRST VILL JAG KOLLA OM PLANTAN REDAN FINNS I GARDEN, ALTERNATIVT ATT JAG TRY ATT LÄGGA TILL DEN I GARDEN OCH OM DET INTE FUNKAR SÅ FINNS DEN REDAN DÄR.
+            
+
+
+        }
         private void BtnPlantDetails_Click(object sender, RoutedEventArgs e)
         {
 
@@ -133,8 +180,6 @@ namespace GreenThumb.Views
         {
 
         }
-
-        
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
         {
@@ -152,15 +197,13 @@ namespace GreenThumb.Views
             //
         }
 
-        private void BtnAddPlant_Click(object sender, RoutedEventArgs e)
-        {
-            
-            
-        }
+        
 
         private void BtnAddGarden_Click(object sender, RoutedEventArgs e)
         {
 
         }
+
+        
     }
 }
