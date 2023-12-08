@@ -97,6 +97,9 @@ namespace GreenThumb.Views
             lstPlants.Items.Clear();
 
             lblGarden.Text = AuthManager.UserGarden!.Name;
+            lblUsername.Content = AuthManager.CurrentUser!.Name;
+            txtWelcome.Content = $"Welcome back {AuthManager.CurrentUser!.Name}";
+            txtSearch.Text = "";
             //lägg till userns plantor
             foreach (Plant plant in AuthManager.UserGarden!.Plants) 
             {
@@ -114,7 +117,7 @@ namespace GreenThumb.Views
             foreach (Plant plant in AuthManager.AllPlants!)
             {
                 ListViewItem listViewItem = new();
-                listViewItem.Content = $"Name: {plant.Name}";
+                listViewItem.Content = plant.Name;
                 listViewItem.Tag = plant;
                 listViewItem.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D4D4D"));
                 listViewItem.Foreground = new SolidColorBrush(Colors.White);
@@ -137,7 +140,7 @@ namespace GreenThumb.Views
                 foreach (Plant plant in AuthManager.FilteredPlants)
                 {
                     ListViewItem listViewItem = new();
-                    listViewItem.Content = $"Name: {plant.Name}";
+                    listViewItem.Content = plant.Name;
                     listViewItem.Tag = plant;
                     listViewItem.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D4D4D"));
                     listViewItem.Foreground = new SolidColorBrush(Colors.White);
@@ -151,7 +154,7 @@ namespace GreenThumb.Views
         {
             //så när man skriver in nånting, då vill jag hämta alla de plantor som stämmer överens med det man skrivit
             //för varje planta, vill jag kolla om namnet startar med det man skrivit in, isåfall 
-            AuthManager.FilteredPlants = AuthManager.AllPlants?.Where(p => p.Name.StartsWith(searchstring) == true).ToList();
+            AuthManager.FilteredPlants = AuthManager.AllPlants?.Where(p => p.Name.ToLower().StartsWith(searchstring.ToLower()) == true).ToList();
 
         }
 
