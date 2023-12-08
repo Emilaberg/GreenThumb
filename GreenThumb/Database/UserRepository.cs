@@ -33,14 +33,14 @@ namespace GreenThumb.Database
         //Method for login. 
         public async Task<User?> GetUserByCredentialsAsync(string username, string password)
         {
-            return await _context.Users.FirstOrDefaultAsync(u => u.Name == username && u.Password == password);
+            return await _context.Users.Include(u => u.Garden).FirstOrDefaultAsync(u => u.Name == username && u.Password == password);
         }
 
         //show All
         public async Task<User?> GetUserByIdAsync(int id)
         {
 
-             return await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
+             return await _context.Users.Include(u => u.Garden).FirstOrDefaultAsync(u => u.UserId == id);
         }
 
         //Create

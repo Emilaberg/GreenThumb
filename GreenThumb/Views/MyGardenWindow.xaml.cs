@@ -42,6 +42,9 @@ namespace GreenThumb.Views
 
                 lblGarden.Text = "'Your future garden name :)'";
 
+
+                //disable all the other buttons
+
             }
         }
 
@@ -89,6 +92,10 @@ namespace GreenThumb.Views
 
         private void PopulateListViews()
         {
+            //rensa listviews
+            lstGardens.Items.Clear();
+            lstPlants.Items.Clear();
+
             lblGarden.Text = AuthManager.UserGarden!.Name;
             //lägg till userns plantor
             foreach (Plant plant in AuthManager.UserGarden!.Plants) 
@@ -157,20 +164,34 @@ namespace GreenThumb.Views
         //ADD PLANT TO GARDEN
         private async void BtnAddPlant_Click(object sender, RoutedEventArgs e)
         {
-            //först vill jag kolla om plantan finns hos användarens garden
-            using (GreenThumbDbContext context = new())
+            if(lstPlants.SelectedItem == null)
             {
-                UnitOfWorkRepository uow = new(context);
-
+                return;
             }
-                
+            ListViewItem selectedItem = (ListViewItem)lstPlants.SelectedItem;
+            Plant selectedPlant = (Plant)selectedItem.Tag;
+
+            //först vill jag kolla om plantan finns hos användarens garden
+            //jag vill kolla om plant man valt finns hos användaren trädgård i databasen
+            if(AuthManager.UserGarden!.Plants.Contains(selectedPlant) == false)
+            {
+                using (GreenThumbDbContext context = new())
+                {
+                    UnitOfWorkRepository uow = new(context);
+                    Garden? userGarden = await uow.GardenRepository.GetGardenByIdAsync(AuthManager.CurrentUser!.UserId);
+                    if (userGarden != null)
+                    {
+                        userGarden.Plants.Add(selectedPlant);
+                    }
+                    
+                    uow.Complete();
+                    
+                }
+                InitUi();
+            }
+
         }
         private void BtnPlantDetails_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void btnRemoveGarden_Click(object sender, RoutedEventArgs e)
         {
 
         }
@@ -198,6 +219,29 @@ namespace GreenThumb.Views
 
         }
 
-        
+        private async void BtnRemoveGardenPlant_Click(object sender, RoutedEventArgs e)
+        {
+            //kolla om man valt nånting
+            //sen vill jag hämta den valda plantan, 
+            //sen vill jag ta bort den plantan från currentUsers plant lista.
+            if(lstGardens.SelectedItem == null)
+            {
+                return;
+            }
+
+            ListViewItem selectedItem = (ListViewItem)lstGardens.SelectedItem;
+            Plant plant = (Plant)selectedItem.Tag;
+
+            using (GreenThumbDbContext context = new())
+            {
+                UnitOfWorkRepository uow = new(context);
+                Garden? garden = await uow.GardenRepository.GetGardenByIdAsync(AuthManager.CurrentUser.UserId);
+                garden.Plants.RemoveAll(p => p.PlantId == plant.PlantId);
+                
+                uow.Complete();
+            }
+            InitUi();
+            
+        }
     }
 }
