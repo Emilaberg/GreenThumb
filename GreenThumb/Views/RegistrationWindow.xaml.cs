@@ -1,4 +1,5 @@
-﻿using GreenThumb.Managers;
+﻿using GreenThumb.Controllers;
+using GreenThumb.Managers;
 using System.Windows;
 
 namespace GreenThumb.Views
@@ -19,10 +20,14 @@ namespace GreenThumb.Views
             Close();
         }
 
-        private void BtnRegister_Click(object sender, RoutedEventArgs e)
+        private async void BtnRegister_Click(object sender, RoutedEventArgs e)
         {
-            ViewManager.MyGardenWindow().Show();
-            Close();
+            if (await ValidationController.RegisterUserAsync(txtUsername.Text, txtPassword.Password, txtConfirmPassword.Password))
+            {
+                MyGardenWindow myGardenWindow = ViewManager.MyGardenWindow();
+                Close();
+                myGardenWindow.Show();
+            }
         }
     }
 }

@@ -81,10 +81,18 @@
                     />
             </Label.Effect>
         </Label>
-        <Label Content="My Gardens"  Grid.Column="1" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White" FontWeight="Bold" FontSize="16"/>
+        <TextBlock Name="lblGarden" Text="My Garden"  Grid.Column="1" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White" FontWeight="Bold" FontSize="16" TextWrapping="Wrap"/>
+        
+        <!--Create garden buttons-->
+        <Label Visibility="Hidden" Name="lblGardenName" Content="Name" Grid.Column="2" Grid.Row="3" VerticalAlignment="Center"  HorizontalAlignment="Left" Foreground="White" FontWeight="Bold" FontSize="13"/>
+        <TextBox Visibility="Hidden" Name="txtGardenName" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center" Background="White" Foreground="#2D2D2D" Width="90" FontSize="10" FontWeight="Bold" Margin="30 0 0 0"  Padding="15 3 15 3"/>
+        <Button Visibility="Hidden" Name="BtnCreateGarden" Content="Create Garden" Grid.Column="3" Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Center" Background="#2D2D2D" Foreground="White" BorderBrush="Green" BorderThickness="2" FontSize="14" FontWeight="Bold" Margin="0 0 5 6" Padding="15 3 15 3" Click="BtnCreateGarden_Click"/>
+        <!--Create garden buttons-->
+        
+        
         <!--Garden list-->
         <Border Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" BorderBrush="#2D2D2D" Background="#2D2D2D" BorderThickness="2" CornerRadius="10" Margin="0 0 5 0" />
-        <ListView Name="lstGardens" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" Margin="10 5 10 5" Background="#2D2D2D" BorderBrush="#2D2D2D" SelectionChanged="lstGardens_SelectionChanged"/>
+        <ListView Name="lstGardens" Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" Margin="10 5 10 5" Background="#3D3D3D" BorderBrush="#2D2D2D" SelectionChanged="lstGardens_SelectionChanged"/>
 
         
         <!--Search bar-->
@@ -97,7 +105,7 @@
         <Border Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" BorderBrush="#2D2D2D" Background="#2D2D2D" BorderThickness="2" CornerRadius="10" Height="200" Margin="5 -110 0 0"/>
         <ListView Name="lstPlants" Grid.Column="4" Grid.ColumnSpan="3" Grid.Row="4" Grid.RowSpan="2" Margin="10 -110 10 5" Background="#3D3D3D" BorderBrush="#2D2D2D" Height="190">
             
-            <!--<ListViewItem Background="#4D4D4D" Content="White cauliflower" Foreground="White"/>-->
+            
         </ListView>
         
 
@@ -106,7 +114,8 @@
         <Button Name="btnRemovePlant" Content="Remove" Grid.Column="5" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#2D2D2D" Foreground="White" BorderBrush="#2D2D2D" BorderThickness="2" FontSize="14" FontWeight="Bold" Margin="0 50 5 5" Padding="6 3 6 3"/>
 
 
-        <Button Name="BtnAddGarden" Content="Add" Grid.Column="3" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#2D2D2D" Foreground="White" BorderBrush="#2D2D2D" BorderThickness="2" FontSize="14" FontWeight="Bold" Margin="0 0 5 6" Padding="15 3 15 3" Click="BtnAddGarden_Click"/>
+        <Button Name="BtnMyPlantDetail" Content="Details" Grid.Column="3" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Center" Background="#2D2D2D" Foreground="White" BorderBrush="#2D2D2D" BorderThickness="2" FontSize="14" FontWeight="Bold" Margin="0 0 5 6" Padding="6 3 6 3"/>
+        
         <Button Name="btnRemoveGarden" Content="Remove" Grid.Column="3" Grid.Row="6" HorizontalAlignment="Right" VerticalAlignment="Center" Background="#2D2D2D" Foreground="White" BorderBrush="#2D2D2D" BorderThickness="2" FontSize="14" FontWeight="Bold" Margin="0 0 5 5" Padding="6 3 6 3" Click="btnRemoveGarden_Click"/>
 
 

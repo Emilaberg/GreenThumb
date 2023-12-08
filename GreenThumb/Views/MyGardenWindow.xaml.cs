@@ -13,121 +13,108 @@ namespace GreenThumb.Views
     /// </summary>
     public partial class MyGardenWindow : Window
     {
+        
         public MyGardenWindow()
         {
             InitializeComponent();
-            
             InitUi();
 
         }
-        //initials the ui, get the data async and sets it to the ui.
-        private void InitUi()
+
+        //when I want to update the ui I call initUi
+        private async void InitUi()
         {
-            //Om det är första init så kör vi detta annars hämtar vi från "cache"
-            if (AuthManager.UserGarden == null)
+
+            await GetData();
+            
+            //skapa listviewitems
+            if(AuthManager.UserGarden != null)
             {
-                Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(async () =>
-                {
-                    await GetUsersGardens();
-                    await GetAllPlants();
-                    try
-                    {
-                        //loopa igenom alla garden, 
-                        //sätt alla gardens till ett listviewitem.
-                        foreach (Plant plant in AuthManager.UserGarden.Plants)
-                        {
-                            ListViewItem listViewItem = new();
-                            listViewItem.Content = $"{plant.Name}";
-                            listViewItem.Tag = plant;
-                            listViewItem.FontSize = 18;
-                            listViewItem.FontWeight = FontWeights.Bold;
-                            listViewItem.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D4D4D"));
-                            listViewItem.Foreground = new SolidColorBrush(Colors.White);
-                            lstGardens.Items.Add(listViewItem);
-                        }
-
-                        foreach (Plant plant in AuthManager.AllPlants)
-                        {
-                            ListViewItem listViewItem = new();
-                            listViewItem.Content = $"Name: {plant.Name}";
-                            listViewItem.Tag = plant;
-                            listViewItem.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D4D4D"));
-                            listViewItem.Foreground = new SolidColorBrush(Colors.White);
-                            lstPlants.Items.Add(listViewItem);
-                        }
-                        
-                    }
-                    catch (Exception ex)
-                    {
-                        return;
-                    }
-
-                }));
-            } else
+                //kalla på populateListViews
+                PopulateListViews();
+            }else
             {
-                try
-                {
-                    //loopa igenom alla garden, 
-                    //sätt alla gardens till ett listviewitem.
-                    foreach (Plant plant in AuthManager.UserGarden.Plants)
-                    {
-                        ListViewItem listViewItem = new();
-                        listViewItem.Content = $"{plant.Name}";
-                        listViewItem.Tag = plant;
-                        listViewItem.FontSize = 18;
-                        listViewItem.FontWeight = FontWeights.Bold;
-                        listViewItem.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D4D4D"));
-                        listViewItem.Foreground = new SolidColorBrush(Colors.White);
-                        lstGardens.Items.Add(listViewItem);
-                    }
+                MessageBox.Show("You have no garden, start by creating a garden");
+                //kalla på create Gardenwindow eller bara automatiskt skapa en garden
+                BtnCreateGarden.Visibility = Visibility.Visible;
+                lblGardenName.Visibility = Visibility.Visible;
+                txtGardenName.Visibility = Visibility.Visible;
 
-                    foreach (Plant plant in AuthManager.AllPlants)
-                    {
-                        ListViewItem listViewItem = new();
-                        listViewItem.Content = $"Name: {plant.Name}";
-                        listViewItem.Tag = plant;
-                        listViewItem.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D4D4D"));
-                        listViewItem.Foreground = new SolidColorBrush(Colors.White);
-                        lstPlants.Items.Add(listViewItem);
-                        
-                    }
-                }
-                catch (Exception ex)
-                {
-                    return;
-                }
+                lblGarden.Text = "'Your future garden name :)'";
 
             }
-            
         }
 
-        private async Task GetAllPlants()
+        private async void BtnCreateGarden_Click(object sender, RoutedEventArgs e)
         {
-            //hämta alla plantor och sätt det till all plants i authcontrollern.
+            //skapa en garden med det namnet man skrivit in
             using (GreenThumbDbContext context = new())
             {
                 UnitOfWorkRepository uow = new(context);
+                Garden garden = new()
+                {
+                    Name = txtGardenName.Text,
+                    Level = 1,
+                    Size = 1,
+                    UserId = AuthManager.CurrentUser!.UserId,
+                };
+
+                await uow.GardenRepository.CreateGardenAsync(garden);
+                uow.Complete();
+            }
+            //göm creategarden
+            BtnCreateGarden.Visibility = Visibility.Hidden;
+            lblGardenName.Visibility = Visibility.Hidden;
+            txtGardenName.Visibility = Visibility.Hidden;
+            //Kör initUi
+            InitUi();
+
+        }
+
+        //jag vill ha en function som är async void, den await sen funktion 1 och två, sen skapar listviewitems
+        private async Task GetData()
+        {
+            using (GreenThumbDbContext context = new())
+            {
+                //hämtar och sätter userGarden
+                UnitOfWorkRepository uow = new(context);
+                AuthManager.UserGarden = await uow.GardenRepository.GetGardenByIdAsync(AuthManager.CurrentUser!.UserId);
+
+                //sätta allplants
                 AuthManager.AllPlants = await uow.PlantRepository.GetAllAsync();
 
             }
+
         }
 
-        //hämta userns garden
-        private async Task GetUsersGardens()
+        private void PopulateListViews()
         {
-            
-            using (GreenThumbDbContext context = new())
+            lblGarden.Text = AuthManager.UserGarden!.Name;
+            //lägg till userns plantor
+            foreach (Plant plant in AuthManager.UserGarden!.Plants) 
             {
-                UnitOfWorkRepository uow = new(context);
-                AuthManager.UserGarden = await uow.GardenRepository.GetGardenByIdAsync(AuthManager.UserSessionId);
-                
+                ListViewItem listViewItem = new();
+                listViewItem.Content = $"{plant.Name}";
+                listViewItem.Tag = plant;
+                listViewItem.FontSize = 18;
+                listViewItem.FontWeight = FontWeights.Bold;
+                listViewItem.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D4D4D"));
+                listViewItem.Foreground = new SolidColorBrush(Colors.White);
+                lstGardens.Items.Add(listViewItem);
             }
+
+            //lägg till alla plantor 
+            foreach (Plant plant in AuthManager.AllPlants!)
+            {
+                ListViewItem listViewItem = new();
+                listViewItem.Content = $"Name: {plant.Name}";
+                listViewItem.Tag = plant;
+                listViewItem.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D4D4D"));
+                listViewItem.Foreground = new SolidColorBrush(Colors.White);
+                lstPlants.Items.Add(listViewItem);
+            }
+
         }
-
-        //initials the ui, get the data async and sets it to the ui.
-
-
-
 
         //SEARCH FUNCTIONALITY 
 
@@ -163,13 +150,20 @@ namespace GreenThumb.Views
 
         //SEARCH FUNCTIONALITY 
 
+
+
+
+
         //ADD PLANT TO GARDEN
-        private void BtnAddPlant_Click(object sender, RoutedEventArgs e)
+        private async void BtnAddPlant_Click(object sender, RoutedEventArgs e)
         {
-            //FÖRST VILL JAG KOLLA OM PLANTAN REDAN FINNS I GARDEN, ALTERNATIVT ATT JAG TRY ATT LÄGGA TILL DEN I GARDEN OCH OM DET INTE FUNKAR SÅ FINNS DEN REDAN DÄR.
-            
+            //först vill jag kolla om plantan finns hos användarens garden
+            using (GreenThumbDbContext context = new())
+            {
+                UnitOfWorkRepository uow = new(context);
 
-
+            }
+                
         }
         private void BtnPlantDetails_Click(object sender, RoutedEventArgs e)
         {

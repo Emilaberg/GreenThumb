@@ -37,7 +37,6 @@ namespace GreenThumb.Controllers
                     if (user != null)
                     {
                         AuthManager.CurrentUser = user;
-                        AuthManager.UserSessionId = user.UserId;
                         return true;
                     }
                     MessageBox.Show("Password or Username was incorrect, try again", "Alert");
@@ -76,7 +75,7 @@ namespace GreenThumb.Controllers
                     MessageBox.Show("password was not the same, try again", "Alert");
                     return false;
                 }
-                else if (username.Length > 5 && username.Length < 10 && password.Length > 5 && password.Length < 50)
+                else if (username.Length > 4 && username.Length < 11 && password.Length > 4 && password.Length < 51)
                 {
                     using (GreenThumbDbContext context = new())
                     {
@@ -85,7 +84,6 @@ namespace GreenThumb.Controllers
                         if (user != null)
                         {
                             AuthManager.CurrentUser = user;
-                            AuthManager.UserSessionId = user.UserId;
                             return true;
                         }
                         MessageBox.Show($"username {username} is already taken, please select a different username.");

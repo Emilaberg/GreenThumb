@@ -20,13 +20,10 @@ namespace GreenThumb.Views
         {
             if (await ValidationController.LoginUserAsync(txtUsername.Text, txtPassword.Password))
             {
-                //MessageBox.Show($"{AuthManager.UserSessionId} {AuthManager.CurrentUser.Name}");
-
                 MyGardenWindow myGardenWindow = ViewManager.MyGardenWindow();
                 Close();
                 myGardenWindow.Show();
             }
-            
         }
 
         private void BtnLogin_Click(object sender, RoutedEventArgs e)
