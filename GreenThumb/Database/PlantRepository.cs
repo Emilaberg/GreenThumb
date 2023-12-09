@@ -22,7 +22,7 @@ namespace GreenThumb.Database
         public async Task<Plant?> GetPlantByIdAsync(int id)
         {
 
-            return await _context.Plants.FirstOrDefaultAsync(p => p.PlantId == id);
+            return await _context.Plants.Include(p => p.Instructions).FirstOrDefaultAsync(p => p.PlantId == id);
         }
 
         //Create

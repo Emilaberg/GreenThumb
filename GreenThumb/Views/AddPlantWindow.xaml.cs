@@ -1,19 +1,9 @@
 ﻿using GreenThumb.Database;
 using GreenThumb.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GreenThumb.Views
 {
@@ -46,18 +36,19 @@ namespace GreenThumb.Views
             lstInstructions.Items.Clear();
 
             //om man ska edita en planta
-            if(PlantToEdit != null) { 
+            if (PlantToEdit != null)
+            {
                 //hämta den korrekta plantan från 
                 txtName.Text = PlantToEdit.Name;
-                
-                foreach(Instruction instruction in PlantToEdit.Instructions)
+
+                foreach (Instruction instruction in PlantToEdit.Instructions)
                 {
                     ListViewItem listViewItem = new();
                     listViewItem.Content = instruction.Description;
                     listViewItem.Tag = instruction;
                     listViewItem.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D4D4D"));
                     listViewItem.Foreground = new SolidColorBrush(Colors.White);
-                   
+
                     lstInstructions.Items.Add(listViewItem);
                 }
                 return;
@@ -71,9 +62,9 @@ namespace GreenThumb.Views
         }
 
 
-        private void TxtInstructionEnter(object sender, KeyEventArgs e)
+        private async void TxtInstructionEnter(object sender, KeyEventArgs e)
         {
-            if(e.Key == Key.Enter && txtInstruction.Text != "")
+            if (e.Key == Key.Enter && txtInstruction.Text != "")
             {
                 //lägg till en ny instruction till listview:n
 
@@ -82,18 +73,58 @@ namespace GreenThumb.Views
                 instruction.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D4D4D"));
                 instruction.Foreground = new SolidColorBrush(Colors.White);
                 lstInstructions.Items.Add(instruction);
+                if (isEditing)
+                {
+                    await UpdateInstructions(txtInstruction.Text);
+                }
                 txtInstruction.Text = "";
+
+
+            }
+        }
+
+        private async Task UpdateInstructions(string description)
+        {
+            using (GreenThumbDbContext context = new())
+            {
+
+
+                UnitOfWorkRepository uow = new(context);
+
+                Plant? plant = await uow.PlantRepository.GetPlantByIdAsync(PlantToEdit.PlantId);
+
+                Instruction instruction = new()
+                {
+                    Description = description,
+                    PlantId = plant!.PlantId
+                };
+
+                Instruction? exits = plant.Instructions.FirstOrDefault(i => i.Description.ToLower() == instruction.Description.ToLower());
+
+                if (exits == null)
+                {
+                    await uow.InstructionRepository.CreateInstructionAsync(instruction);
+                    uow.Complete();
+                    PlantToEdit = await uow.PlantRepository.GetPlantByIdAsync(PlantToEdit.PlantId);
+
+                }
+                else
+                {
+
+                }
+                InitUi();
             }
         }
 
         private async void BtnAddPlant_Click(object sender, RoutedEventArgs e)
         {
-            
+
             //om man uppdaterar en planta
-            if(isEditing)
+            if (isEditing)
             {
                 await UpdateEditedPlant();
-            }else
+            }
+            else
             {
                 //skapa en ny planta.
                 //kolla om man skrivit in nånting 
@@ -110,7 +141,7 @@ namespace GreenThumb.Views
         private async Task AddNewPlant()
         {
             await CreatePlant();
-           
+
         }
 
         private async Task CreatePlant()
@@ -155,7 +186,7 @@ namespace GreenThumb.Views
             // skapa en ny planta med det nya namnet, och sen uppdatera den plantan jag har nu till det nya namnet, sen spara
             await UpdatePlant(PlantToEdit.PlantId);
 
-            
+
             //kolla om man har man har lagt till en ny instruction.
             //då kollar jag om plantToedit instrucktion är lika lång som listview:n
             //sen skapa nya instruktions som har plantans id. och save:a för varje.
@@ -170,7 +201,7 @@ namespace GreenThumb.Views
             {
                 Name = txtName.Text,
             };
-            using(GreenThumbDbContext context = new())
+            using (GreenThumbDbContext context = new())
             {
                 UnitOfWorkRepository uow = new(context);
 
@@ -185,7 +216,7 @@ namespace GreenThumb.Views
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
-            if(isEditing == false)
+            if (isEditing == false)
             {
                 return;
             }

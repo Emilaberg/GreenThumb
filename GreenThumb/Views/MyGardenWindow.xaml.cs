@@ -4,7 +4,6 @@ using GreenThumb.Models;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace GreenThumb.Views
 {
@@ -13,7 +12,7 @@ namespace GreenThumb.Views
     /// </summary>
     public partial class MyGardenWindow : Window
     {
-        
+
         public MyGardenWindow()
         {
             InitializeComponent();
@@ -26,13 +25,14 @@ namespace GreenThumb.Views
         {
 
             await GetData();
-            
+
             //skapa listviewitems
-            if(AuthManager.UserGarden != null)
+            if (AuthManager.UserGarden != null)
             {
                 //kalla på populateListViews
                 PopulateListViews();
-            }else
+            }
+            else
             {
                 MessageBox.Show("You have no garden, start by creating a garden");
                 //kalla på create Gardenwindow eller bara automatiskt skapa en garden
@@ -101,7 +101,7 @@ namespace GreenThumb.Views
             txtWelcome.Content = $"Welcome back {AuthManager.CurrentUser!.Name}";
             txtSearch.Text = "";
             //lägg till userns plantor
-            foreach (Plant plant in AuthManager.UserGarden!.Plants) 
+            foreach (Plant plant in AuthManager.UserGarden!.Plants)
             {
                 ListViewItem listViewItem = new();
                 listViewItem.Content = $"{plant.Name}";
@@ -133,7 +133,7 @@ namespace GreenThumb.Views
         {
             //jag vill kalla på getSearchResult och skicka med det man skrev in.
             GetSearchResult(txtSearch.Text);
-            if(AuthManager.FilteredPlants != null)
+            if (AuthManager.FilteredPlants != null)
             {
                 //sen vill jag rensa listan och fylla den med det nya.
                 lstPlants.Items.Clear();
@@ -145,7 +145,7 @@ namespace GreenThumb.Views
                     listViewItem.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D4D4D"));
                     listViewItem.Foreground = new SolidColorBrush(Colors.White);
                     lstPlants.Items.Add(listViewItem);
-                    
+
                 }
             }
         }
@@ -167,7 +167,7 @@ namespace GreenThumb.Views
         //ADD PLANT TO GARDEN
         private async void BtnAddPlant_Click(object sender, RoutedEventArgs e)
         {
-            if(lstPlants.SelectedItem == null)
+            if (lstPlants.SelectedItem == null)
             {
                 return;
             }
@@ -176,7 +176,7 @@ namespace GreenThumb.Views
 
             //först vill jag kolla om plantan finns hos användarens garden
             //jag vill kolla om plant man valt finns hos användaren trädgård i databasen
-            if(AuthManager.UserGarden!.Plants.Contains(selectedPlant) == false)
+            if (AuthManager.UserGarden!.Plants.Contains(selectedPlant) == false)
             {
                 using (GreenThumbDbContext context = new())
                 {
@@ -186,9 +186,9 @@ namespace GreenThumb.Views
                     {
                         userGarden.Plants.Add(selectedPlant);
                     }
-                    
+
                     uow.Complete();
-                    
+
                 }
                 InitUi();
             }
@@ -248,6 +248,11 @@ namespace GreenThumb.Views
 
         private void BtnMyPlantDetail_Click(object sender, RoutedEventArgs e)
         {
+            if (lstGardens.SelectedItem == null)
+            {
+                return;
+            }
+
             ListViewItem selectedItem = (ListViewItem)lstGardens.SelectedItem;
             Plant plant = (Plant)selectedItem.Tag;
 
@@ -295,6 +300,6 @@ namespace GreenThumb.Views
             InitUi();
         }
 
-        
+
     }
 }
