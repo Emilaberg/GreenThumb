@@ -17,6 +17,13 @@ namespace GreenThumb.Database
             return await _context.Instructions.ToListAsync();
         }
 
+        public async Task<List<Instruction>> GetAllInstructionsByIdAsync(int PlantId)
+        {
+            var instructions = await GetAllAsync();
+            //hämta alla instructions
+            List<Instruction> res = instructions.Where(i => i.PlantId == PlantId).ToList();
+            return res;
+        }
 
         //show All
         public async Task<Instruction?> GetInstructionByIdAsync(int id)

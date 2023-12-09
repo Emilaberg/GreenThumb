@@ -12,6 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace GreenThumb.Views
@@ -21,8 +22,8 @@ namespace GreenThumb.Views
     /// </summary>
     public partial class AddPlantWindow : Window
     {
-        
-        public Plant PlantToEdit { get; set; }
+        bool isEditing = true;
+        public Plant? PlantToEdit { get; set; }
 
         public AddPlantWindow()
         {
@@ -59,7 +60,13 @@ namespace GreenThumb.Views
                    
                     lstInstructions.Items.Add(listViewItem);
                 }
+                return;
             }
+            txtName.IsReadOnly = false;
+            txtInstruction.IsReadOnly = false;
+            BtnAddPlant.Content = "Add";
+            BtnEdit.Opacity = 0.5;
+            isEditing = false;
 
         }
 
@@ -82,6 +89,66 @@ namespace GreenThumb.Views
 
         private async void BtnAddPlant_Click(object sender, RoutedEventArgs e)
         {
+            
+            //om man uppdaterar en planta
+            if(isEditing)
+            {
+                //jag vill skapa en ny planta, skapa en ny lista med de instructions som lagts till, där varje ny instruction har den nuvarande plant id:et
+                using (GreenThumbDbContext context = new())
+                {
+                    UnitOfWorkRepository uow = new(context);
+
+                    
+
+                    //för varje instruction i listan vill jag skapa en ny instruction, prova save:a den funkar det gött, annars fortsätt
+                    foreach (ListViewItem item in lstInstructions.Items)
+                    {
+                        string description = (string)item.Content;
+
+                        Instruction newInstruction = new()
+                        {
+                            Description = description,
+                            PlantId = PlantToEdit.PlantId,
+                        };
+                        //Hämta alla plantans instructions
+                        List<Instruction> instructions = await uow.InstructionRepository.GetAllInstructionsByIdAsync(PlantToEdit.PlantId);
+                        //lägga till instruction om det inte redan finns
+                        if(instructions.Count == 0)
+                        {
+                            await uow.InstructionRepository.CreateInstructionAsync(newInstruction);
+                            uow.Complete();
+                        }else
+                        {
+                            //////WTFFF??????
+                            //kan behöva kolla så att den equals den man skickar med. den instruction
+                            foreach (ListViewItem instruction in lstInstructions.Items)
+                            {
+                                if((string)instruction.Content == newInstruction.Description)
+                                {
+                                    return;
+                                }else
+                                {
+                                    await uow.InstructionRepository.CreateInstructionAsync(newInstruction);
+                                    uow.Complete();
+                                }
+                            }
+
+                        }
+                        
+                    }
+                    
+                    
+                    //hämta plantan med de uppdaterade instructions, och sätt det till den nya plantToEdit
+                    PlantToEdit = await uow.PlantRepository.GetPlantByIdAsync(PlantToEdit!.PlantId);
+                    //Uppdatera sedan namnet på den uppdaterade plantan
+                    PlantToEdit!.Name = txtName.Text;
+                    //uppdaterade sedan plantan med det nya namnet.
+                    await uow.PlantRepository.UpdateSelectedPlantAsync(PlantToEdit.PlantId, PlantToEdit);
+                    uow.Complete();
+                }
+                return;   
+            }
+
             //skapa en ny planta.
             //kolla om man skrivit in nånting 
             if(txtName == null)
@@ -128,7 +195,15 @@ namespace GreenThumb.Views
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
         {
+            if(isEditing == false)
+            {
+                return;
+            }
+
             //lås upp alla fields
+            txtName.IsReadOnly = false;
+            txtInstruction.IsReadOnly = false;
+            BtnAddPlant.Content = "Save";
         }
 
         private void BtnGoBack_Click(object sender, RoutedEventArgs e)
