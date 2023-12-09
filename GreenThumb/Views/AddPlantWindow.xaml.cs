@@ -40,7 +40,7 @@ namespace GreenThumb.Views
             {
                 //hämta den korrekta plantan från 
                 txtName.Text = PlantToEdit.Name;
-
+                BtnRemoveInstruction.Visibility = Visibility.Visible;
                 foreach (Instruction instruction in PlantToEdit.Instructions)
                 {
                     ListViewItem listViewItem = new();
@@ -58,6 +58,7 @@ namespace GreenThumb.Views
             BtnAddPlant.Content = "Add";
             BtnEdit.Opacity = 0.5;
             isEditing = false;
+
 
         }
 
