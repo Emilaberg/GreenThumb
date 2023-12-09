@@ -92,6 +92,9 @@
                     </Border.Effect>
                 </Border>
                 <!--Add button-->
+
+                <Button Name="BtnRemoveInstruction" Content="Remove Instruction" Grid.Column="2" Grid.Row="7" HorizontalAlignment="Right" VerticalAlignment="Top" Height="20" Background="#383838" Foreground="white" BorderBrush="#2D2D2D" FontWeight="Bold" FontSize="8" Margin="0 5 5 0" Click="BtnRemoveInstruction_Click"/>
+
             </Grid>
         </Border>
     </Grid>

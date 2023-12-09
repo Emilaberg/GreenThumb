@@ -233,5 +233,22 @@ namespace GreenThumb.Views
             Close();
             myGardenWindow.Show();
         }
+
+        private async void BtnRemoveInstruction_Click(object sender, RoutedEventArgs e)
+        {
+            ListViewItem selectedItem = (ListViewItem)lstInstructions.SelectedItem;
+            Instruction selectedInstruction = (Instruction)selectedItem.Tag;
+
+            using (GreenThumbDbContext context = new())
+            {
+                UnitOfWorkRepository uow = new(context);
+
+                await uow.InstructionRepository.RemoveSelectedInstructionAsync(selectedInstruction.InstructionId);
+                uow.Complete();
+                PlantToEdit = await uow.PlantRepository.GetPlantByIdAsync(PlantToEdit.PlantId);
+            };
+            InitUi();
+
+        }
     }
 }

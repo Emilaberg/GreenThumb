@@ -58,7 +58,7 @@ namespace GreenThumb.Database
 
         //delete
 
-        public async Task RemoveSelectedUserAsync(int id)
+        public async Task RemoveSelectedInstructionAsync(int id)
         {
             Instruction? instructionToRemove = await GetInstructionByIdAsync(id);
 
