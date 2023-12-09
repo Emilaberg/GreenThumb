@@ -14,7 +14,7 @@ namespace GreenThumb.Database
 
         public async Task<List<Plant>> GetAllAsync()
         {
-            return await _context.Plants.ToListAsync();
+            return await _context.Plants.Include(p => p.Instructions).ToListAsync();
         }
 
 

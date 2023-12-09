@@ -5,8 +5,94 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GreenThumb.Views"
         mc:Ignorable="d"
-        Title="AddPlantWindow" Height="450" Width="800">
+        Title="AddPlantWindow"  Height="700" Width="1000" Background="#1b1b1b" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            
+        </Grid.RowDefinitions>
+
+
+        <Border Grid.Column="2" Grid.Row="1" Background="#1b1b1b" Grid.ColumnSpan="3" Grid.RowSpan="4">
+            <Border.Effect>
+                <DropShadowEffect
+                ShadowDepth="0"
+                Direction="0"
+                Color="#6ACA20"
+                Opacity="1"
+                BlurRadius="10"    
+                />
+            </Border.Effect>
+            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Button Name="BtnGoBack" Content="Go Back" Grid.Column="3" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Center" Width="50" Height="20" Background="#383838" Foreground="white" BorderBrush="#2D2D2D" FontWeight="Bold" FontSize="10" Margin="0 0 5 0" Click="BtnGoBack_Click" />
+                
+                <!--Name-->
+                <Label Grid.Column="1" Grid.Row="1" Content="Name" FontSize="18" Foreground="White" VerticalAlignment="Bottom"/>
+                <Button Name="BtnEdit" Grid.Column="2" Grid.Row="1"  Content="Edit" Foreground="White" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Bottom" FontSize="14" HorizontalAlignment="Right" Width="40" Click="BtnEdit_Click"/>
+                <Border Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="2" Height="30" VerticalAlignment="Top" BorderBrush="White" Background="White" CornerRadius="10" Margin="5 0 0 0">
+                    <TextBox FontSize="14" Name="txtName" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="4" VerticalContentAlignment="Center" BorderBrush="White" Foreground="Black" Background="White" Margin="6 1 6 1"/>
+                </Border>
+
+                <!--Instruction-->
+                <Label Grid.Column="1" Grid.Row="3" Content="Instructions" FontSize="18" Foreground="White" VerticalAlignment="Bottom"/>
+                <Label Grid.Column="2" Grid.Row="3" Content="Press Enter to add" Foreground="White" VerticalAlignment="Bottom" FontSize="10" HorizontalAlignment="Right"/>
+                <Border Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="4" Height="30" VerticalAlignment="Top" BorderBrush="White" Background="White" CornerRadius="10" Margin="5 0 0 0">
+                    <TextBox FontSize="14" Name="txtInstruction" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="4" VerticalContentAlignment="Center" BorderBrush="White" Foreground="Black" Background="White" Margin="6 1 6 1" KeyDown="TxtInstructionEnter"/>
+                </Border>
+
+                <Border Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="#2D2D2D" CornerRadius="10"/>
+                <ListView Name="lstInstructions" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" Grid.RowSpan="2" Background="#3D3D3D" BorderBrush="#3D3D3D" Margin="5"/>
+                <!--Instruction-->
+
+                <!--Add button-->
+                <Border Grid.Column="1" Grid.Row="7" Grid.ColumnSpan="2" Background="#1b1b1b" Width="40" Height="20" CornerRadius="10" >
+                    <Button Name="BtnAddPlant" Content="Add" Background="#1b1b1b" BorderBrush="Transparent" Foreground="White" Margin="2" FontSize="10" Padding="0" Click="BtnAddPlant_Click"/>
+                    <Border.Effect>
+                        <DropShadowEffect
+                            ShadowDepth="0"
+                            Direction="0"
+                            Color="#6ACA20"
+                            Opacity="1"
+                            BlurRadius="5" 
+                            />
+                    </Border.Effect>
+                </Border>
+                <!--Add button-->
+            </Grid>
+        </Border>
     </Grid>
 </Window>

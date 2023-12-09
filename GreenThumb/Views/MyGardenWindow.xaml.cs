@@ -194,9 +194,66 @@ namespace GreenThumb.Views
             }
 
         }
-        private void BtnPlantDetails_Click(object sender, RoutedEventArgs e)
+        //REMOVE PLANT FROM GARDEN
+        private async void BtnRemoveGardenPlant_Click(object sender, RoutedEventArgs e)
+        {
+            //kolla om man valt nånting
+            //sen vill jag hämta den valda plantan, 
+            //sen vill jag ta bort den plantan från currentUsers plant lista.
+            if (lstGardens.SelectedItem == null)
+            {
+                return;
+            }
+
+            ListViewItem selectedItem = (ListViewItem)lstGardens.SelectedItem;
+            Plant plant = (Plant)selectedItem.Tag;
+
+            using (GreenThumbDbContext context = new())
+            {
+                UnitOfWorkRepository uow = new(context);
+                Garden? garden = await uow.GardenRepository.GetGardenByIdAsync(AuthManager.CurrentUser.UserId);
+                garden.Plants.RemoveAll(p => p.PlantId == plant.PlantId);
+
+                uow.Complete();
+            }
+            InitUi();
+
+        }
+
+        // CREATE A PLANT
+        private void BtnCreatePlant_Click(object sender, RoutedEventArgs e)
         {
 
+            AddPlantWindow EditPlantWindow = ViewManager.EditPlantWindow();
+            Close();
+            EditPlantWindow.Show();
+
+        }
+        private void BtnPlantDetails_Click(object sender, RoutedEventArgs e)
+        {
+            //kolla om man valt nånting
+            //sen vill jag hämta den valda plantan, 
+            //sen vill jag ta bort den plantan från currentUsers plant lista.
+            if (lstPlants.SelectedItem == null)
+            {
+                return;
+            }
+            ListViewItem selectedItem = (ListViewItem)lstPlants.SelectedItem;
+            Plant plant = (Plant)selectedItem.Tag;
+
+            AddPlantWindow addPlantWindow = ViewManager.AddPlantWindow(plant);
+            Close();
+            addPlantWindow.Show();
+        }
+
+        private void BtnMyPlantDetail_Click(object sender, RoutedEventArgs e)
+        {
+            ListViewItem selectedItem = (ListViewItem)lstGardens.SelectedItem;
+            Plant plant = (Plant)selectedItem.Tag;
+
+            AddPlantWindow addPlantWindow = ViewManager.AddPlantWindow(plant);
+            Close();
+            addPlantWindow.Show();
         }
 
         private void BtnLogout_Click(object sender, RoutedEventArgs e)
@@ -215,36 +272,29 @@ namespace GreenThumb.Views
             //
         }
 
-        
-
-        private void BtnAddGarden_Click(object sender, RoutedEventArgs e)
+        private async void BtnRemovePlant_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private async void BtnRemoveGardenPlant_Click(object sender, RoutedEventArgs e)
-        {
-            //kolla om man valt nånting
-            //sen vill jag hämta den valda plantan, 
-            //sen vill jag ta bort den plantan från currentUsers plant lista.
-            if(lstGardens.SelectedItem == null)
+            if (lstPlants.SelectedItem == null)
             {
                 return;
             }
-
-            ListViewItem selectedItem = (ListViewItem)lstGardens.SelectedItem;
-            Plant plant = (Plant)selectedItem.Tag;
+            ListViewItem selectedItem = (ListViewItem)lstPlants.SelectedItem;
+            Plant selectedPlant = (Plant)selectedItem.Tag;
 
             using (GreenThumbDbContext context = new())
             {
                 UnitOfWorkRepository uow = new(context);
-                Garden? garden = await uow.GardenRepository.GetGardenByIdAsync(AuthManager.CurrentUser.UserId);
-                garden.Plants.RemoveAll(p => p.PlantId == plant.PlantId);
-                
-                uow.Complete();
+                Plant? plantToRemove = await uow.PlantRepository.GetPlantByIdAsync(selectedPlant.PlantId);
+                if (plantToRemove != null)
+                {
+                    await uow.PlantRepository.RemoveSelectedPlantAsync(plantToRemove.PlantId);
+
+                    uow.Complete();
+                }
             }
             InitUi();
-            
         }
+
+        
     }
 }

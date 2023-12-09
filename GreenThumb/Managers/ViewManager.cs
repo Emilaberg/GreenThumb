@@ -1,14 +1,19 @@
-﻿using GreenThumb.Views;
+﻿using GreenThumb.Models;
+using GreenThumb.Views;
 
 namespace GreenThumb.Managers
 {
     public static class ViewManager
     {
-        public static AddPlantWindow AddPlantWindow()
+        public static AddPlantWindow AddPlantWindow(Plant plant)
+        {
+            return new AddPlantWindow(plant);
+        }
+        public static AddPlantWindow EditPlantWindow()
         {
             return new AddPlantWindow();
         }
-
+        
         public static LoginWindow LoginWindow()
         {
             return new LoginWindow();
@@ -21,10 +26,6 @@ namespace GreenThumb.Managers
         public static PlantDetailsWindow PlantDetailsWindow()
         {
             return new PlantDetailsWindow();
-        }
-        public static PlantWindow PlantWindow()
-        {
-            return new PlantWindow();
         }
 
         public static RegistrationWindow RegistrationWindow()
