@@ -52,7 +52,7 @@ namespace GreenThumb.Database
 
         //delete
 
-        public async Task RemoveSelectedGardenTask(int id)
+        public async Task RemoveSelectedGardenAsync(int id)
         {
             Garden? gardenToRemove = await GetGardenByIdAsync(id);
 

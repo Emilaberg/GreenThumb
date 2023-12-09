@@ -35,11 +35,11 @@ namespace GreenThumb.Views
         {
             InitializeComponent();
             PlantToEdit = plant;
+
             InitUi();
         }
-        
 
-        private async void InitUi()
+        private void InitUi()
         {
             txtName.Text = "";
             txtInstruction.Text = "";
@@ -82,7 +82,6 @@ namespace GreenThumb.Views
                 instruction.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#4D4D4D"));
                 instruction.Foreground = new SolidColorBrush(Colors.White);
                 lstInstructions.Items.Add(instruction);
-
                 txtInstruction.Text = "";
             }
         }
@@ -93,73 +92,30 @@ namespace GreenThumb.Views
             //om man uppdaterar en planta
             if(isEditing)
             {
-                //jag vill skapa en ny planta, skapa en ny lista med de instructions som lagts till, där varje ny instruction har den nuvarande plant id:et
-                using (GreenThumbDbContext context = new())
-                {
-                    UnitOfWorkRepository uow = new(context);
-
-                    
-
-                    //för varje instruction i listan vill jag skapa en ny instruction, prova save:a den funkar det gött, annars fortsätt
-                    foreach (ListViewItem item in lstInstructions.Items)
-                    {
-                        string description = (string)item.Content;
-
-                        Instruction newInstruction = new()
-                        {
-                            Description = description,
-                            PlantId = PlantToEdit.PlantId,
-                        };
-                        //Hämta alla plantans instructions
-                        List<Instruction> instructions = await uow.InstructionRepository.GetAllInstructionsByIdAsync(PlantToEdit.PlantId);
-                        //lägga till instruction om det inte redan finns
-                        if(instructions.Count == 0)
-                        {
-                            await uow.InstructionRepository.CreateInstructionAsync(newInstruction);
-                            uow.Complete();
-                        }else
-                        {
-                            //////WTFFF??????
-                            //kan behöva kolla så att den equals den man skickar med. den instruction
-                            foreach (ListViewItem instruction in lstInstructions.Items)
-                            {
-                                if((string)instruction.Content == newInstruction.Description)
-                                {
-                                    return;
-                                }else
-                                {
-                                    await uow.InstructionRepository.CreateInstructionAsync(newInstruction);
-                                    uow.Complete();
-                                }
-                            }
-
-                        }
-                        
-                    }
-                    
-                    
-                    //hämta plantan med de uppdaterade instructions, och sätt det till den nya plantToEdit
-                    PlantToEdit = await uow.PlantRepository.GetPlantByIdAsync(PlantToEdit!.PlantId);
-                    //Uppdatera sedan namnet på den uppdaterade plantan
-                    PlantToEdit!.Name = txtName.Text;
-                    //uppdaterade sedan plantan med det nya namnet.
-                    await uow.PlantRepository.UpdateSelectedPlantAsync(PlantToEdit.PlantId, PlantToEdit);
-                    uow.Complete();
-                }
-                return;   
-            }
-
-            //skapa en ny planta.
-            //kolla om man skrivit in nånting 
-            if(txtName == null)
+                await UpdateEditedPlant();
+            }else
             {
-                return;
+                //skapa en ny planta.
+                //kolla om man skrivit in nånting 
+                if (txtName == null)
+                {
+                    return;
+                }
+
+                await AddNewPlant();
             }
-            
-            //jag måste först skapa en planta med det namnet.
+            InitUi();
+        }
 
+        private async Task AddNewPlant()
+        {
+            await CreatePlant();
+           
+        }
 
-            using(GreenThumbDbContext context = new())
+        private async Task CreatePlant()
+        {
+            using (GreenThumbDbContext context = new())
             {
                 UnitOfWorkRepository uow = new(context);
 
@@ -170,10 +126,9 @@ namespace GreenThumb.Views
                 };
                 await uow.PlantRepository.CreatePlantAsync(newPlant);
                 uow.Complete();
-
                 //save:ar så att det skapas ett id till plantan
 
-                //hämta alla inlagda descriptions och skapa en instruction med description och lägg ti instructions
+                //hämta alla inlagda descriptions och skapa en instruction med description och lägg till instructions
 
                 foreach (ListViewItem item in lstInstructions.Items)
                 {
@@ -188,9 +143,44 @@ namespace GreenThumb.Views
                     uow.Complete();
                 }
             }
+        }
 
-            InitUi();
+        private async Task UpdateEditedPlant()
+        {
+            //kolla om man editar
+            if (isEditing == false)
+            {
+                return;
+            }
+            // skapa en ny planta med det nya namnet, och sen uppdatera den plantan jag har nu till det nya namnet, sen spara
+            await UpdatePlant(PlantToEdit.PlantId);
 
+            
+            //kolla om man har man har lagt till en ny instruction.
+            //då kollar jag om plantToedit instrucktion är lika lång som listview:n
+            //sen skapa nya instruktions som har plantans id. och save:a för varje.
+
+            //tillslut uppdatera ui:t.
+        }
+
+        private async Task UpdatePlant(int plantId)
+        {
+            // skapa en ny planta med det nya namnet, och sen uppdatera den plantan jag har nu till det nya namnet, sen spara
+            Plant plant = new()
+            {
+                Name = txtName.Text,
+            };
+            using(GreenThumbDbContext context = new())
+            {
+                UnitOfWorkRepository uow = new(context);
+
+                //uppdaterar den nuvarande plantans namn
+                await uow.PlantRepository.UpdateSelectedPlantAsync(plantId, plant);
+                uow.Complete();
+
+                //uppdaterar plantanToEdit
+                PlantToEdit = await uow.PlantRepository.GetPlantByIdAsync(plantId);
+            }
         }
 
         private void BtnEdit_Click(object sender, RoutedEventArgs e)
