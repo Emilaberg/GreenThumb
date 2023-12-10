@@ -83,15 +83,47 @@ namespace GreenThumb.Database
                 new Instruction()
                 {
                     InstructionId = 2,
-                    Description = "harvest the plant",
-                    PlantId = 2,
+                    Description = "fertilize the plant",
+                    PlantId = 1,
                 },
                 new Instruction()
                 {
                     InstructionId = 3,
+                    Description = "harvest the plant",
+                    PlantId = 1,
+                },
+                new Instruction()
+                {
+                    InstructionId = 4,
+                    Description = "water the plant",
+                    PlantId = 2,
+                }, new Instruction()
+                {
+                    InstructionId = 5,
+                    Description = "fertilize the plant",
+                    PlantId = 2,
+                }, new Instruction()
+                {
+                    InstructionId = 6,
+                    Description = "harvest the plant",
+                    PlantId = 2,
+                }, new Instruction()
+                {
+                    InstructionId = 7,
+                    Description = "water the plant",
+                    PlantId = 3,
+                }, new Instruction()
+                {
+                    InstructionId = 8,
                     Description = "fertilize the plant",
                     PlantId = 3,
+                }, new Instruction()
+                {
+                    InstructionId = 9,
+                    Description = "harvest the plant",
+                    PlantId = 3,
                 }
+
             );
         }
 
