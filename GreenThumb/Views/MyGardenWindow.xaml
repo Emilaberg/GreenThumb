@@ -30,7 +30,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Image Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="left" Source="C:\Users\emila\Documents\projektSkola\slutProjekt\GreenThumb\GreenThumb\Media\green-thumb-logo.png">
+        <Image Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="left" Source="\GreenThumb;component\Media\green-thumb-logo.png">
             <Image.Effect>
                 <DropShadowEffect
                     ShadowDepth="0"

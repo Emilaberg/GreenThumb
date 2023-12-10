@@ -45,7 +45,7 @@
             </TextBlock.Effect>
         </TextBlock>
 
-        <Image Grid.Column="1" Grid.Row="3" Grid.RowSpan="5" Grid.ColumnSpan="3" Source="C:\Users\Skola\Documents\projekt skola\GreenThumb\GreenThumb\Media\green-thumb-logo.png">
+        <Image Grid.Column="1" Grid.Row="3" Grid.RowSpan="5" Grid.ColumnSpan="3" Source="\GreenThumb;component\Media\green-thumb-logo.png">
             <Image.Effect>
                 <DropShadowEffect
                     ShadowDepth="0"
