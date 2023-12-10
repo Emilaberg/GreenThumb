@@ -1,5 +1,6 @@
 ﻿using GreenThumb.Database;
 using GreenThumb.Managers;
+using GreenThumb.Models;
 using System.Windows;
 
 namespace GreenThumb.Controllers
@@ -94,6 +95,24 @@ namespace GreenThumb.Controllers
                 return false;
             }
 
+        }
+
+        public async static Task<bool> ContainsPlant(string PlantName)
+        {
+            using (GreenThumbDbContext context = new())
+            {
+                UnitOfWorkRepository uow = new(context);
+
+                Plant? res = await uow.PlantRepository.GetPlantByName(PlantName);
+                if(res != null)
+                {
+                    return true;
+                }
+                return false;
+            }
+            //hämta den plantan med skapat, 
+            //om den är null, returnera false 
+            //annars return true
         }
     }
 }

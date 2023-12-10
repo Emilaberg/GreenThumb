@@ -109,7 +109,7 @@
         </ListView>
         
 
-        <Button Name="BtnRemovePlant" Content="Remove" Grid.Column="5" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#2D2D2D" Foreground="White" BorderBrush="#2D2D2D" BorderThickness="2" FontSize="14" FontWeight="Bold" Margin="0 50 5 5" Padding="6 3 6 3" Click="BtnRemovePlant_Click"/>
+        <Button Name="BtnRemovePlant" Content="Delete" Grid.Column="5" Grid.Row="5" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#2D2D2D" Foreground="White" BorderBrush="#2D2D2D" BorderThickness="2" FontSize="14" FontWeight="Bold" Margin="0 50 5 5" Padding="6 3 6 3" Click="BtnRemovePlant_Click"/>
         <Button Name="BtnAddPlant" Content="Add" Grid.Column="5" Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#2D2D2D" Foreground="White" BorderBrush="#2D2D2D" BorderThickness="2" FontSize="14" FontWeight="Bold" Margin="5 50 5 6" Padding="15 3 15 3" Click="BtnAddPlant_Click"/>
         <Button Name="BtnCreatePlant" Content="Create Plant" Grid.Column="6" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#2D2D2D" Foreground="White" BorderBrush="#2D2D2D" FontSize="14" FontWeight="Bold" Margin="0 50 5 5" Padding="6 3 6 3" Click="BtnCreatePlant_Click"/>
         <Button Name="BtnPlantDetails" Content="Details" Grid.Column="6" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#2D2D2D" Foreground="White" BorderBrush="#2D2D2D" FontSize="14" FontWeight="Bold" Margin="0 85 5 5" Padding="6 3 6 3" Click="BtnPlantDetails_Click"/>

@@ -1,4 +1,5 @@
-﻿using GreenThumb.Database;
+﻿using GreenThumb.Controllers;
+using GreenThumb.Database;
 using GreenThumb.Models;
 using System.Windows;
 using System.Windows.Controls;
@@ -173,8 +174,14 @@ namespace GreenThumb.Views
             {
                 //skapa en ny planta.
                 //kolla om man skrivit in nånting 
-                if (txtName == null)
+                if (txtName.Text == "")
                 {
+                    MessageBox.Show("The plant must have a name");
+                    return;
+                }
+                if (await ValidationController.ContainsPlant(txtName.Text.ToLower()))
+                {
+                    MessageBox.Show($"The plant with the name {txtName.Text.ToLower()} already exits, please choose a different name");
                     return;
                 }
 
@@ -202,8 +209,9 @@ namespace GreenThumb.Views
                 //skapar en planta 
                 Plant newPlant = new()
                 {
-                    Name = txtName.Text,
+                    Name = txtName.Text.ToLower(),
                 };
+
                 await uow.PlantRepository.CreatePlantAsync(newPlant);
                 uow.Complete();
                 //save:ar så att det skapas ett id till plantan

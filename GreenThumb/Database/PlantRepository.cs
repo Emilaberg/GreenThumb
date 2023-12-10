@@ -1,5 +1,6 @@
 ﻿using GreenThumb.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Windows;
 
 namespace GreenThumb.Database
 {
@@ -17,6 +18,17 @@ namespace GreenThumb.Database
             return await _context.Plants.Include(p => p.Instructions).ToListAsync();
         }
 
+        public async Task<Plant?> GetPlantByName(string name)
+        {
+            //string big = name.First().ToString().ToUpper();
+            //string s = name.Replace(name[0], big[0]);
+            //ta bort första bokstaven
+            
+
+            var plants = await GetAllAsync();
+            var res = plants.FirstOrDefault(p => p.Name == name);
+            return res;
+        }
 
         //show All
         public async Task<Plant?> GetPlantByIdAsync(int id)
