@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GreenThumb.Migrations
 {
     [DbContext(typeof(GreenThumbDbContext))]
-    [Migration("20231204130106_init")]
+    [Migration("20231210182726_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -107,13 +107,49 @@ namespace GreenThumb.Migrations
                         new
                         {
                             InstructionId = 2,
+                            Description = "fertilize the plant",
+                            PlantId = 1
+                        },
+                        new
+                        {
+                            InstructionId = 3,
+                            Description = "harvest the plant",
+                            PlantId = 1
+                        },
+                        new
+                        {
+                            InstructionId = 4,
+                            Description = "water the plant",
+                            PlantId = 2
+                        },
+                        new
+                        {
+                            InstructionId = 5,
+                            Description = "fertilize the plant",
+                            PlantId = 2
+                        },
+                        new
+                        {
+                            InstructionId = 6,
                             Description = "harvest the plant",
                             PlantId = 2
                         },
                         new
                         {
-                            InstructionId = 3,
+                            InstructionId = 7,
+                            Description = "water the plant",
+                            PlantId = 3
+                        },
+                        new
+                        {
+                            InstructionId = 8,
                             Description = "fertilize the plant",
+                            PlantId = 3
+                        },
+                        new
+                        {
+                            InstructionId = 9,
+                            Description = "harvest the plant",
                             PlantId = 3
                         });
                 });
