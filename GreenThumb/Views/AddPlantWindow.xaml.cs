@@ -12,7 +12,7 @@ namespace GreenThumb.Views
     /// </summary>
     public partial class AddPlantWindow : Window
     {
-        bool isEditing = true;
+        bool isEditing = false;
         public Plant? PlantToEdit { get; set; }
 
         public AddPlantWindow()
@@ -25,7 +25,6 @@ namespace GreenThumb.Views
         {
             InitializeComponent();
             PlantToEdit = plant;
-
             InitUi();
         }
 
@@ -38,6 +37,23 @@ namespace GreenThumb.Views
             //om man ska edita en planta
             if (PlantToEdit != null)
             {
+                //sätta alla saker till edit mode
+                BtnEdit.Visibility = Visibility.Visible;
+                BtnRemoveInstruction.Visibility = Visibility.Visible;
+
+                txtName.IsReadOnly = true;
+                txtName.Opacity = 0.5;
+                txtInstruction.IsReadOnly = true;
+                lstInstructions.Opacity = 0.5;
+                lstInstructions.IsHitTestVisible = false;
+                BtnAddPlant.Content = "Edit";
+                BtnAddPlant.Opacity = 0.5;
+                BtnAddPlant.IsHitTestVisible = false;
+                BtnRemoveInstruction.IsHitTestVisible = false;
+                BtnRemoveInstruction.Opacity = 0.5;
+                BtnEdit.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                btnShadow.Color = (Color)ColorConverter.ConvertFromString("#6ACA20");
+
                 //hämta den korrekta plantan från 
                 txtName.Text = PlantToEdit.Name;
                 BtnRemoveInstruction.Visibility = Visibility.Visible;
@@ -51,17 +67,43 @@ namespace GreenThumb.Views
 
                     lstInstructions.Items.Add(listViewItem);
                 }
+
                 return;
             }
-            txtName.IsReadOnly = false;
-            txtInstruction.IsReadOnly = false;
-            BtnAddPlant.Content = "Add";
-            BtnEdit.Opacity = 0.5;
-            isEditing = false;
-
 
         }
+        private void BtnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            if(isEditing == false)
+            {
+                //lås upp alla fields
+                txtName.IsReadOnly = false;
+                txtName.Opacity = 1;
 
+                txtInstruction.IsReadOnly = false;
+                lstInstructions.Opacity = 1;
+                lstInstructions.IsHitTestVisible = true;
+
+                BtnAddPlant.Content = "Save";
+                BtnAddPlant.Opacity = 1;
+                BtnAddPlant.IsHitTestVisible = true;
+
+                isEditing = true;
+
+                BtnRemoveInstruction.IsHitTestVisible = true;
+                BtnRemoveInstruction.Opacity = 1;
+
+                btnShadow.Color = Colors.Orange;
+
+
+                BtnEdit.BorderBrush = new SolidColorBrush(Colors.Orange);
+            }else
+            {
+                InitUi();
+                isEditing = false;
+            }
+            
+        }
 
         private async void TxtInstructionEnter(object sender, KeyEventArgs e)
         {
@@ -113,7 +155,9 @@ namespace GreenThumb.Views
                 {
 
                 }
+                isEditing = false;
                 InitUi();
+
             }
         }
 
@@ -135,7 +179,11 @@ namespace GreenThumb.Views
                 }
 
                 await AddNewPlant();
+                MyGardenWindow myGardenWindow = new();
+                Close();
+                myGardenWindow.Show();
             }
+            isEditing = false;
             InitUi();
         }
 
@@ -215,18 +263,7 @@ namespace GreenThumb.Views
             }
         }
 
-        private void BtnEdit_Click(object sender, RoutedEventArgs e)
-        {
-            if (isEditing == false)
-            {
-                return;
-            }
-
-            //lås upp alla fields
-            txtName.IsReadOnly = false;
-            txtInstruction.IsReadOnly = false;
-            BtnAddPlant.Content = "Save";
-        }
+        
 
         private void BtnGoBack_Click(object sender, RoutedEventArgs e)
         {
@@ -248,7 +285,10 @@ namespace GreenThumb.Views
                 uow.Complete();
                 PlantToEdit = await uow.PlantRepository.GetPlantByIdAsync(PlantToEdit.PlantId);
             };
+
+            isEditing = false;
             InitUi();
+            BtnEdit_Click(null, null);
 
         }
     }
